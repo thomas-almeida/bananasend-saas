@@ -49,14 +49,15 @@ export function GoogleButton() {
   return (
     <button
       onClick={() => { signIn("google", { callbackUrl: "/" }) }}
-      className="cursor-pointer inline-flex items-center gap-2 rounded-sm bg-white border border-black/10 px-4 py-2 text-sm font-medium shadow-[0_1px_0_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow card-shadow "
+      className={`cursor-pointer inline-flex items-center gap-2 rounded-sm bg-white border border-black/10 px-4 py-2 text-sm font-medium shadow-[0_1px_0_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow card-shadow ${session ? "pointer-events-none" : ""}`}
+      disabled={session ? true : false}
     >
 
       {
         session ? (
           <>
             <p className="text-xs">
-              {session.user?.name}, você é <b className="italic font-bold text-[#2bb24a]">f0d@!</b>
+              {session.user?.name}, você é <b className="italic font-bold text-[#2bb24a] font-mono">f0d@!</b>
             </p>
           </>
         ) : (
