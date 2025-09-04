@@ -33,7 +33,7 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
             <ul className="flex items-center gap-4 text-sm">
               <li>
                 <Link
-                  href="https://www.tabnews.com.br/thommdev"
+                  href="https://www.linkedin.com/feed/update/urn:li:activity:7343761568964186112/"
                   target="_blank"
                   className="hover:underline"
                 >
@@ -66,7 +66,7 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
           <h1 className="mt-6 text-3xl sm:text-4xl md:text-[46px] leading-10 tracking-tighter text-neutral-900 italic font-mono">
             Um Jeito <span className="text-[#2bb24a] italic font-serif text-5xl">f0d@</span> de
             <br className="hidden sm:block" />
-            Metrificar seu Trampo.
+             Metrificar seu Trampo.
           </h1>
 
           <p className="mt-5 text-base sm:text-md text-neutral-800 max-w-2xl mx-auto leading-5">
