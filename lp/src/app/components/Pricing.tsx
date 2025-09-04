@@ -3,12 +3,26 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 
+// Types inferred from the subscriptions API
+interface SubscriptionPlan {
+  _id: string
+  name: string
+  description: string
+  promotional: string
+  price: number
+  features: string[]
+}
+
+interface SubscriptionsResponse {
+  subscriptions: SubscriptionPlan[]
+}
+
 export default function Pricing() {
-  const [prices, setPrices] = useState([])
+  const [prices, setPrices] = useState<SubscriptionPlan[]>([])
 
   const baseURL = "http://localhost:3333/api"
   useEffect(() => {
-    axios.get(`${baseURL}/subscriptions`)
+    axios.get<SubscriptionsResponse>(`${baseURL}/subscriptions`)
       .then(response => {
         setPrices(response.data.subscriptions)
         console.log(response.data.subscriptions)
@@ -23,7 +37,7 @@ export default function Pricing() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {
           prices ? (
-            prices.map((price: any, index: number) => (
+            prices.map((price, index) => (
               <div
                 key={price._id}
                 className="flex flex-col items-center justify-center border border-slate-200 p-4 rounded bg-white shadow-2xl h-[400px] gap-2 hover:scale-102 transition-all cursor-pointer md:w-[400px]"
@@ -52,7 +66,7 @@ export default function Pricing() {
                 <h5 className="text-4xl font-bold py-4">{price.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h5>
                 <ul className="text-left px-4 text-sm">
                   {
-                    price.features.map((feature: any, index: number) => (
+                    price.features.map((feature, index) => (
                       <li
                         key={index}
                         className="py-1"
