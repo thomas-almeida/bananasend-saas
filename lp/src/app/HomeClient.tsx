@@ -66,7 +66,7 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
           <h1 className="mt-6 text-3xl sm:text-4xl md:text-[46px] leading-10 tracking-tighter text-neutral-900 italic font-mono">
             Um Jeito <span className="text-[#2bb24a] italic font-serif text-5xl">f0d@</span> de
             <br className="hidden sm:block" />
-             Metrificar seu Trampo.
+            <span className="px-2">Metrificar seu Trampo.</span>
           </h1>
 
           <p className="mt-5 text-base sm:text-md text-neutral-800 max-w-2xl mx-auto leading-5">
