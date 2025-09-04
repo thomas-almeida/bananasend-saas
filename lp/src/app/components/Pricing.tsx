@@ -20,7 +20,7 @@ interface SubscriptionsResponse {
 export default function Pricing() {
   const [prices, setPrices] = useState<SubscriptionPlan[]>([])
 
-  const baseURL = "http://localhost:3333/api"
+  const baseURL = "https://bananasend-saas.onrender.com/api"
   useEffect(() => {
     axios.get<SubscriptionsResponse>(`${baseURL}/subscriptions`)
       .then(response => {
