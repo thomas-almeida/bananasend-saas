@@ -4,16 +4,19 @@ import Image from "next/image";
 import { GoogleButton } from "./components/GoogleButton";
 import { Modal } from "./components/Modal";
 import Pricing from "./components/Pricing";
+import Badge from "./components/badge";
 import Link from "next/link";
 import { useState } from "react";
 import type { SubscriptionPlan } from "./types/subscriptions";
 
 interface HomeClientProps {
   initialPrices: SubscriptionPlan[]
+  initialWishListTotal: number
 }
 
-export default function HomeClient({ initialPrices }: HomeClientProps) {
+export default function HomeClient({ initialPrices, initialWishListTotal }: HomeClientProps) {
   const [pricingOpen, setPricingOpen] = useState(false)
+  const [wishListTotal] = useState(initialWishListTotal)
   const [prices] = useState<SubscriptionPlan[]>(initialPrices)
 
   return (
@@ -33,7 +36,7 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
             <ul className="flex items-center gap-4 text-sm">
               <li>
                 <Link
-                  href="https://www.linkedin.com/feed/update/urn:li:activity:7343761568964186112/"
+                  href="https://www.tabnews.com.br/thommdev/quem-nao-e-visto-nao-e-lembrado"
                   target="_blank"
                   className="hover:underline"
                 >
@@ -52,8 +55,8 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
             </ul>
           </div>
 
-          <span className="md:block hidden">
-            <GoogleButton />
+          <span className="hidden w-1/2 md:flex items-center justify-end">
+            <GoogleButton text="Fazer Login" />
           </span>
         </header>
 
@@ -69,12 +72,20 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
             <span className="px-2">Metrificar seu Trampo.</span>
           </h1>
 
-          <p className="mt-5 text-base sm:text-md text-neutral-800 max-w-2xl mx-auto leading-5">
-            Amadureça seu trampo aprendendo a valorizar suas entregas, destaque-se dos demais e seja notado por quem realmente pode te promover enviando newsletters sobre progressos e reports gerando ainda mais valor da sua pessoa no seu time.
-          </p>
+          <div className=" px-2 md:px-0">
+            <p className="mt-5 text-lg sm:text-md text-neutral-800 max-w-2xl mx-auto leading-6">
+              Feito para <Badge text="Qualquer Profissional 🧑🏻‍💻" bgColor="white" textColor="" /> que reporta a algum gestor e usa emails no dia-a-dia! Amadureça suas entregas enviando relatórios simples, modernos e diretos por <Badge text="Email ✉️" bgColor="bg-[#2bb24a]" textColor="text-white" /> mostrando que você é <Badge text="Peça-Chave ✨" bgColor="bg-green-200" textColor="text-green-800" /> no seu time.
+            </p>
+          </div>
 
-          <div className="mt-6" id="cta">
-            <GoogleButton />
+          <div className="flex items-center justify-center">
+            <p className="mt-5 text-base sm:text-md text-neutral-800 max-w-2xl mx-auto leading-5 border border-green-200 px-4 py-1 rounded-full shadow-lg shadow-slate-100">
+              Já são <b className="text-[#2bb24a] font-mono">+{wishListTotal}</b> Profissionais se Destacando! 🚀
+            </p>
+          </div>
+
+          <div className="mt-4 w-full flex items-center justify-center" id="cta">
+            <GoogleButton text="Entrar na Lista de Espera!" />
           </div>
         </main>
 
@@ -86,7 +97,7 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
               alt="Demonstração send"
               width={1200}
               height={1200}
-              className="mix-blend-color md:w-[40%] "
+              className="mix-blend-color md:w-[40%] 2xl:w-[35%]"
               priority
             />
           </div>
