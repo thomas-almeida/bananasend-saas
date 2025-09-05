@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, getUserById, getUserCount } from "./Controller/UserController.js";
+import { createUser, getUserById, getTotalUsers } from "./Controller/UserController.js";
 import { createSubscription, listSubscriptions, getSubscriptionById } from "./Controller/SubscriptionsController.js";
 import { testMail, sendEmail, sendBulkEmail } from "./Controller/MailController.js";
 
@@ -12,7 +12,7 @@ api.get("/api/hello", (req, res) => {
 // Users
 api.post("/users", createUser);
 api.get("/users/:id", getUserById);
-api.get("/users/count", getUserCount);
+api.get("/wishlist-total", getTotalUsers);
 
 // Subscriptions
 api.post("/subscriptions", createSubscription);
