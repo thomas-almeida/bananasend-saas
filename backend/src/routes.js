@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, getUserById } from "./Controller/UserController.js";
+import { createUser, getUserById, getUserCount } from "./Controller/UserController.js";
 import { createSubscription, listSubscriptions, getSubscriptionById } from "./Controller/SubscriptionsController.js";
 import { testMail, sendEmail, sendBulkEmail } from "./Controller/MailController.js";
 
