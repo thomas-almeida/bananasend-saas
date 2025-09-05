@@ -29,3 +29,9 @@ export async function getUserById(req, res) {
 
   res.status(200).json({ user });
 }
+
+
+export async function getUserCount(res) {
+  const users = await User.find({}).count();
+  res.status(200).json({ users });
+}

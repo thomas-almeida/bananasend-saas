@@ -9,8 +9,10 @@ api.get("/api/hello", (req, res) => {
   res.send("🍌✉️!!");
 });
 
+// Users
 api.post("/users", createUser);
 api.get("/users/:id", getUserById);
+api.get("/users/count", getUserCount);
 
 // Subscriptions
 api.post("/subscriptions", createSubscription);

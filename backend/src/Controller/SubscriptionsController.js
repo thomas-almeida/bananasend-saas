@@ -6,13 +6,20 @@ export async function createSubscription(req, res) {
     const { name, price, description, features } = req.body;
 
     if (!name || price == null) {
-      return res.status(400).json({ message: "'name' e 'price' são obrigatórios" });
+      return res
+        .status(400)
+        .json({ message: "'name' e 'price' são obrigatórios" });
     }
 
     // Optional: prevent duplicate plan names
     const existing = await Subscriptions.findOne({ name });
     if (existing) {
-      return res.status(409).json({ message: "Já existe um plano com esse nome", subscription: existing });
+      return res
+        .status(409)
+        .json({
+          message: "Já existe um plano com esse nome",
+          subscription: existing,
+        });
     }
 
     const subscription = new Subscriptions({
@@ -34,7 +41,10 @@ export async function createSubscription(req, res) {
 // List all available subscriptions
 export async function listSubscriptions(req, res) {
   try {
-    const subscriptions = await Subscriptions.find({}).sort({ price: 1, createdAt: -1 });
+    const subscriptions = await Subscriptions.find({}).sort({
+      price: 1,
+      createdAt: -1,
+    });
     return res.status(200).json({ subscriptions });
   } catch (err) {
     console.error("Erro ao listar subscriptions:", err);
