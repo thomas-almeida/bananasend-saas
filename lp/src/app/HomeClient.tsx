@@ -171,7 +171,7 @@ export default function HomeClient({ initialPrices, initialWishListTotal }: Home
             <p className="ml-2"><b>Thomas Almeida</b></p>
           </span>
           <h2 className="text-2xl md:text-3xl md:leading-8 tracking-tighter text-neutral-900 font-mono [text-wrap:balance]">Como um Email e Bananas me fizeram almoçar com o CEO do<span className="text-[#f8b332] italic font-serif text-4xl ml-1"> Assaí Atacadista</span>?</h2>
-          <p className="py-4 text-neutral-600 italic">"Eu tava doido pra encontrar alguém pra mostrar as automações dos chamados que iam desafogar a fila do TI aqui do Assaí, mas ninguém tava tendo tempo pra uma reunião agendada, então tive uma ideia..."</p>
+          <p className="py-4 text-neutral-600 italic">&quot;Eu tava doido pra encontrar alguém pra mostrar as automações dos chamados que iam desafogar a fila do TI aqui do Assaí, mas ninguém tava tendo tempo pra uma reunião agendada, então tive uma ideia...&quot;</p>
           <Link
             href="https://www.tabnews.com.br/thommdev/quem-nao-e-visto-nao-e-lembrado"
             target="_blank"
