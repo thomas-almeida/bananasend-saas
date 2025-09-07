@@ -16,7 +16,7 @@ export default function Pricing({ prices }: PricingProps) {
             prices.map((price: SubscriptionPlan, index: number) => (
               <div
                 key={price._id}
-                className="flex flex-col items-center justify-center border border-slate-200 p-4 rounded bg-white shadow-2xl h-[400px] gap-2 hover:scale-102 transition-all cursor-pointer md:w-[400px]"
+                className="flex flex-col items-center justify-center border border-slate-200 p-4 rounded-xl bg-white shadow-2xl h-[400px] gap-2 hover:scale-102 transition-all cursor-pointer"
               >
                 <p className="text-xs">
                   {
