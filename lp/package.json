@@ -9,11 +9,20 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tiptap/extension-link": "^3.4.1",
+    "@tiptap/extension-placeholder": "^3.4.1",
+    "@tiptap/react": "^3.4.1",
+    "@tiptap/starter-kit": "^3.4.1",
     "axios": "^1.11.0",
     "next": "15.5.2",
     "next-auth": "^4.24.11",
+    "novel": "^1.0.2",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "tiptap-markdown": "^0.9.0"
+  },
+  "overrides": {
+    "@tiptap/pm": "2.2.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

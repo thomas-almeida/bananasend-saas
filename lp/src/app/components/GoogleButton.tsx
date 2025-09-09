@@ -13,7 +13,6 @@ export function GoogleButton({ text }: GoogleButtonProps) {
   const { data: session } = useSession()
   const [posted, setPosted] = useState(false)
 
-  // When session exists (after Google login redirect), post user once
   useEffect(() => {
     const email = session?.user?.email
     const name = session?.user?.name
@@ -52,7 +51,7 @@ export function GoogleButton({ text }: GoogleButtonProps) {
 
   return (
     <button
-      onClick={() => { signIn("google", { callbackUrl: "/" }) }}
+      onClick={() => { signIn("google", { callbackUrl: "/dashboard" }) }}
       className={`w-full md:w-[40%] cursor-pointer flex justify-center items-center gap-2 rounded-full bg-white border border-black/10 px-2 py-4 text-lg md:px-4 md:py-2 md:text-sm font-medium shadow-[0_1px_0_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow card-shadow ${session ? "pointer-events-none" : ""}`}
       disabled={session ? true : false}
     >
