@@ -1,10 +1,16 @@
-
+import { getServerSession } from "next-auth"
+import { redirect } from "next/navigation"
+import { authOptions } from "@/lib/auth"
 import WeekCalendar from "../components/ui/WeekCalendar"
 import Bar from "../components/ui/Bar"
 import Kpi from "../components/ui/Kpi"
 import DailyApointments from "../components/ui/DailyApointments"
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const session = await getServerSession(authOptions)
+  if (!session) {
+    redirect("/")
+  }
   return (
     <div className="flex flex-col gap-4">
       <WeekCalendar daysAmount={7} />
