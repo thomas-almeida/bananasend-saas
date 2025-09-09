@@ -9,6 +9,19 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@editorjs/code": "^2.9.3",
+    "@editorjs/editorjs": "^2.31.0",
+    "@editorjs/embed": "^2.7.6",
+    "@editorjs/header": "^2.8.8",
+    "@editorjs/image": "^2.10.3",
+    "@editorjs/inline-code": "^1.5.2",
+    "@editorjs/list": "^2.0.8",
+    "@editorjs/paragraph": "^2.11.7",
+    "@editorjs/quote": "^2.7.6",
+    "@editorjs/raw": "^2.5.1",
+    "@editorjs/simple-image": "^1.6.0",
+    "@editorjs/table": "^2.4.5",
+    "@editorjs/warning": "^1.4.1",
     "@tiptap/extension-link": "^3.4.1",
     "@tiptap/extension-placeholder": "^3.4.1",
     "@tiptap/react": "^3.4.1",
@@ -19,6 +32,7 @@
     "novel": "^1.0.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-editor-js": "^2.1.0",
     "tiptap-markdown": "^0.9.0"
   },
   "overrides": {

@@ -12,3 +12,22 @@ body {
   color: var(--foreground);
 }
 
+.ce-block__content h1 {
+  font-size: 1.6em;
+}
+
+.ce-block__content h2 {
+  font-size: 1.3em;
+}
+
+.ce-block__content h3 {
+  font-size: 1.1em;
+}
+
+.ce-block__content h4 {
+  font-size: 0.9em;
+}
+
+.ce-block__content a {
+  color: dodgerblue;
+}
