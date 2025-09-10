@@ -7,6 +7,11 @@ import Image from "@editorjs/image";
 import Header from "@editorjs/header";
 import Quote from "@editorjs/quote";
 import InlineCode from "@editorjs/inline-code";
+import { ToolConstructable, ToolSettings } from "@editorjs/editorjs";
+
+type EditorTools = {
+  [key: string]: ToolConstructable | ToolSettings
+}
 
 export const EDITOR_JS_TOOLS = {
   table: Table,

@@ -49,7 +49,7 @@ const RenderEditor = (ElementId: string) => {
               levels: [1, 2, 3, 4],
               defaultLevel: 1
             }
-          } as any // Type assertion to fix the type error
+          } as any
         },
         autofocus: true,
         data: DEFAULT_DATA,
