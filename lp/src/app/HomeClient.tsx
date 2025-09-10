@@ -97,19 +97,40 @@ export default function HomeClient({ initialPrices, initialWishListTotal }: Home
           </span>
 
           <h1 className="mt-6 text-3xl sm:text-4xl md:text-[46px] leading-10 tracking-tighter text-neutral-900 italic font-mono [text-wrap:balance]">
-            Faça seu <span className="text-[#2bb24a] italic font-serif text-5xl">Chefe</span> virar sua Audiência no&nbsp;Trampo
+            Faça até seu <span className="text-[#2bb24a] italic font-serif text-5xl">Chefe</span> virar sua Audiência no&nbsp;Trampo
           </h1>
 
           <div className=" px-2 md:px-0">
             <p className="mt-5 text-lg sm:text-md text-neutral-800 max-w-2xl mx-auto leading-6">
-              Feito para <Badge text="Qualquer Profissional 🧑‍💼" bgColor="bg-[#2bb24a]" textColor="text-white" /> que reporta a algum gestor e usa emails no dia-a-dia. Amadureça suas entregas enviando relatórios simples, modernos e diretos por <Badge text="Email ✉️" bgColor="bg-[#2bb24a]" textColor="text-white" />  mostrando que você é <Badge text="Peça-Chave ✨" bgColor="bg-green-200" textColor="text-green-800" />  no seu time.
+              Melhore sua presença no <i>LinkedIn</i>, monitore oportunidades no <i>Whatsapp</i> e amadureça suas entregas enviando <i>Newsletters</i> modernas e diretas por <i>Email</i> mostrando que você é essencial para gestores e&nbsp;RHs.
             </p>
           </div>
 
-          <div className="flex items-center justify-center">
-            <p className="mt-5 text-base sm:text-md text-neutral-800 max-w-2xl mx-auto leading-5 border border-green-200 px-4 py-1 rounded-full shadow-lg shadow-slate-100">
-              Já são <b className="text-[#2bb24a] font-mono">+{wishListTotal}</b> Profissionais se Destacando! 🚀
-            </p>
+          <div className="flex items-center justify-center mt-4">
+            <Image
+              src="/icons/linkedin.png"
+              alt="send"
+              className="rotate-[-12deg]"
+              width={60}
+              height={60}
+              priority
+            />
+            <Image
+              src="/icons/whatsapp.png"
+              alt="send"
+              className=""
+              width={60}
+              height={40}
+              priority
+            />
+            <Image
+              src="/icons/mail.png"
+              alt="send"
+              className="rotate-12"
+              width={60}
+              height={40}
+              priority
+            />
           </div>
 
           <div className="mt-6 w-full flex items-center justify-center" id="cta">
@@ -130,12 +151,12 @@ export default function HomeClient({ initialPrices, initialWishListTotal }: Home
               <div className="text-left border border-slate-200 p-6 py-8 rounded-2xl shadow-lg shadow-slate-100">
                 <b className="text-2xl">✨</b>
                 <h3 className="text-xl text-[#2bb24a] font-mono tracking-tighter pb-2">Crie e Construa</h3>
-                <p className="leading-5">Crie sua primeira newsletter escrevendo ou via áudio de forma simples e com um design que chama a atenção</p>
+                <p className="leading-5">Automatize seu primeiro post no LinkedIn, Crie sua primeira newsletter, Conecte seu Whatsapp e comece a ter insights para se destacar</p>
               </div>
               <div className="text-left border border-slate-200 p-6 py-8 rounded-2xl shadow-lg shadow-slate-100">
                 <b className="text-2xl">✅</b>
                 <h3 className="text-xl text-[#2bb24a] font-mono tracking-tighter pb-2">Seja notado!</h3>
-                <p className="leading-5">Envie sua newsletter para o email de quem realmente pode te promover no futuro e crie uma audiência que valoriza suas entregas</p>
+                <p className="leading-5">Veja seu progresso e veja como sua presença no LinkedIn, feedbacks da Newsletter e as novas métricas do seu Whatsapp estão evoluindo</p>
               </div>
             </div>
 
@@ -206,17 +227,17 @@ export default function HomeClient({ initialPrices, initialWishListTotal }: Home
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
-                O Bananasend ajuda profissionais a enviarem newsletters semanais por e-mail com design moderno e conteúdo direto ao ponto, para aumentar sua visibilidade com gestores e lideranças.
+                O Bananasend ajuda profissionais a criarem uma presença mais ativa nas mídias de trabalho como LinkedIn, criação de Newsletters semanais por e-mail e métricas sobre Whatsapp de trabalho para aumentar sua visibilidade com gestores, audiência e lideranças.
               </div>
             </details>
 
             <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
               <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
-                Preciso de conhecimento em design?
+                Preciso de conhecimento técnico pra começar?
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
-                Não. Você começa com <b className="text-[#2bb24a]">templates prontos</b> que convertem. Basta preencher com suas entregas, anexar imagens e personalizar títulos chamativos.
+                Não. Você começa com <b className="text-[#2bb24a]">templates prontos</b> que convertem. Basta preencher com suas entregas, conectar seu número, anexar imagens e personalizar títulos chamativos.
               </div>
             </details>
 
@@ -226,7 +247,7 @@ export default function HomeClient({ initialPrices, initialWishListTotal }: Home
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
-                Há planos mensais e anuais. Clique em <a href="#precos" className="underline text-[#2bb24a]">Preços</a> para ver os valores e benefícios de cada plano.
+                Há planos mensais. Clique em <a href="#precos" className="underline text-[#2bb24a]">Preços</a> para ver os valores e benefícios de cada plano.
               </div>
             </details>
 
@@ -237,6 +258,16 @@ export default function HomeClient({ initialPrices, initialWishListTotal }: Home
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
                 Sim. Adicione múltiplos destinatários e mantenha todos atualizados sobre suas entregas com um único envio.
+              </div>
+            </details>
+
+            <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
+              <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
+                Tem risco do meu Whatsapp ou LinkedIn serem banidos/caírem?
+                <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
+              </summary>
+              <div className="px-4 pb-4 text-neutral-700 leading-6">
+                Não, o Bananasend utiliza um ambiente seguro e anti-spam para conectar, analisar e enviar seus conteúdos com as APIs oficiais do LinkedIn e Meta.
               </div>
             </details>
 
@@ -262,7 +293,7 @@ export default function HomeClient({ initialPrices, initialWishListTotal }: Home
 
             <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
               <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
-                Consigo anexar imagens e gráficos nos emails?
+                Consigo anexar imagens e gráficos nos emails e posts?
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
@@ -285,7 +316,7 @@ export default function HomeClient({ initialPrices, initialWishListTotal }: Home
                     acceptedAnswer: {
                       '@type': 'Answer',
                       text:
-                        'O Bananasend ajuda profissionais a enviarem newsletters semanais por e-mail com design moderno e conteúdo direto ao ponto, para aumentar sua visibilidade com gestores e lideranças.'
+                        'O Bananasend ajuda profissionais a enviarem criarem uma presença mais ativa nas mídias de trabalho como LinkedIn, criaçaão de Newsletters semanais por e-mail e métricas sobre Whatsapp de trabalho para aumentar sua visibilidade com gestores, audiência e lideranças.'
                     }
                   },
                   {
@@ -375,18 +406,14 @@ export default function HomeClient({ initialPrices, initialWishListTotal }: Home
         <button
           type="button"
           aria-label="Abrir WhatsApp"
-          className="cursor-pointer fixed bottom-4 right-4 z-50 inline-flex items-center justify-center h-14 w-14 rounded-full bg-[#25D366] text-white shadow-xl shadow-slate-200 hover:scale-105 active:scale-100 transition-transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#25D366]"
+          className="cursor-pointer fixed bottom-4 right-4 z-50 inline-flex items-center justify-center h-14 w-14 rounded-full transition-transform hover:scale-105"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 32 32"
-            fill="currentColor"
-            className="h-7 w-7"
-            aria-hidden="true"
-          >
-            <path d="M19.11 17.66c-.33-.17-1.91-.94-2.21-1.05-.3-.11-.52-.17-.74.17-.22.33-.85 1.05-1.05 1.27-.19.22-.39.25-.72.08-.33-.17-1.36-.5-2.59-1.59-.95-.85-1.59-1.9-1.78-2.22-.19-.33-.02-.5.15-.67.15-.15.33-.39.5-.58.17-.19.22-.33.33-.56.11-.22.06-.41-.03-.58-.09-.17-.74-1.78-1.01-2.44-.27-.66-.54-.57-.74-.58-.19-.01-.41-.01-.63-.01-.22 0-.58.08-.88.41-.3.33-1.15 1.12-1.15 2.73 0 1.61 1.18 3.17 1.35 3.39.17.22 2.32 3.54 5.62 4.96.79.34 1.41.54 1.89.69.79.25 1.52.22 2.09.13.64-.1 1.91-.78 2.18-1.55.27-.77.27-1.43.19-1.55-.08-.11-.3-.19-.63-.36z" />
-            <path d="M27.12 4.88C24.19 1.95 20.22.38 16 .38 11.78.38 7.81 1.95 4.88 4.88 1.95 7.81.38 11.78.38 16c0 2.57.73 5.07 2.11 7.25L.51 31.49l8.42-1.94c2.11 1.15 4.5 1.76 7.07 1.76 4.22 0 8.19-1.57 11.12-4.5 2.93-2.93 4.5-6.9 4.5-11.12 0-4.22-1.57-8.19-4.5-11.12zM16 28.44c-2.36 0-4.65-.63-6.66-1.83l-.48-.29-5 1.15 1.07-4.85-.31-.5C3.38 20.83 2.75 18.45 2.75 16 2.75 9.16 9.16 2.75 16 2.75S29.25 9.16 29.25 16 22.84 29.25 16 29.25z" />
-          </svg>
+          <Image
+            src="/icons/whatsapp.png"
+            alt="WhatsApp"
+            width={60}
+            height={60}
+          />
         </button>
 
       </div>

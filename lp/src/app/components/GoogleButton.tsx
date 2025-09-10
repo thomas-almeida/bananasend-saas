@@ -60,7 +60,7 @@ export function GoogleButton({ text }: GoogleButtonProps) {
         session ? (
           <>
             <p className="text-md">
-              {session.user?.name}, você é <b className="italic font-bold text-[#2bb24a] font-mono">f0d@!</b>
+              Obrigado, {session.user?.name}
             </p>
           </>
         ) : (
