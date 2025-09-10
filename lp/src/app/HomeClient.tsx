@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { GoogleButton } from "./components/GoogleButton";
 import Pricing from "./components/Pricing";
-import Badge from "./components/badge";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { SubscriptionPlan } from "./types/subscriptions";
@@ -14,7 +13,6 @@ interface HomeClientProps {
 }
 
 export default function HomeClient({ initialPrices, initialWishListTotal }: HomeClientProps) {
-  const [wishListTotal] = useState(initialWishListTotal)
   const [prices] = useState<SubscriptionPlan[]>(initialPrices)
 
   // Allow only one FAQ <details> open at a time

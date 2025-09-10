@@ -14,7 +14,7 @@ export default function DailyApointments() {
         className="flex items-center justify-between cursor-pointer"
         onClick={() => setOpen(v => !v)}
       >
-        <h3 className="font-semibold">Segundou, como estamos ?</h3>
+        <h3 className="font-semibold">Hoje: {new Date().toLocaleDateString()}</h3>
         <button
           type="button"
           aria-expanded={open}

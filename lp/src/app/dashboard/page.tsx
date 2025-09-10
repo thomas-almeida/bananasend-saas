@@ -3,8 +3,9 @@ import { redirect } from "next/navigation"
 import { authOptions } from "@/lib/auth"
 import WeekCalendar from "../components/ui/WeekCalendar"
 import Bar from "../components/ui/Bar"
-import Kpi from "../components/ui/Kpi"
 import DailyApointments from "../components/ui/DailyApointments"
+import Trends from "../components/ui/LinkedIn/Trends"
+import Kpis from "../components/ui/KPI/Kpis"
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions)
@@ -12,16 +13,13 @@ export default async function Dashboard() {
     redirect("/")
   }
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8">
       <WeekCalendar daysAmount={7} />
+      <Kpis />
       <DailyApointments />
+      <Trends />
       <Bar />
-      <div className="grid grid-cols-4 gap-2">
-        <Kpi title="Envios" description="Newsletters que você enviou" value={10} unit="" />
-        <Kpi title="Posts" description="Automatizados no LinkedIn" value={2} unit="" />
-        <Kpi title="Destinatários" description="Tamanho da sua audiência atual" value={3} unit="" />
-        <Kpi title="Visualizações" description="Visitas ao seu perifil público" value={5} unit="" />
-      </div>
+
     </div>
   )
 }
