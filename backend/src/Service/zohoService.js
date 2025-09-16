@@ -31,6 +31,7 @@ class ZohoService {
 
       this.accessToken = response.data.access_token;
       console.log('[ZOHO] Access token refreshed successfully');
+      console.log('[ZOHO] New Access Token:', this.accessToken); // Log do novo token
       return this.accessToken;
 
     } catch (error) {
@@ -150,14 +151,66 @@ class ZohoService {
     return this.makeAPICall('DELETE', endpoint, payload);
   }
 
-  async enableProtocols(accountId, { imap = true, pop = true, smtp = true }) {
-    const endpoint = `/organization/${this.organizationId}/accounts/${accountId}/features`;
-    const payload = { imap, pop, smtp };
-    return this.makeAPICall('PATCH', endpoint, payload);
+  async enableProtocols(accountId, zuid, { imap = true, pop = true }) {
+    try {
+      console.log(`[ZOHO] Enabling protocols for account: ${accountId}`);
+
+      const endpoint = `/organization/${this.organizationId}/accounts/${accountId}`;
+
+      const payload = {
+        imapAccessEnabled: imap,
+        popAccessEnabled: pop,
+        mode: "updateIMAPStatus",
+        zuid: zuid
+      };
+
+      // Usando PUT conforme a documentação
+      const result = await this.makeAPICall('PUT', endpoint, payload);
+      console.log(`[ZOHO] Protocols enabled successfully for account: ${accountId}`);
+      return result;
+    } catch (error) {
+      console.error(`[ZOHO] Error enabling protocols for account ${accountId}:`, error.message);
+
+      // Log detalhado para debugging
+      if (error.response) {
+        console.error('Response data:', error.response.data);
+        console.error('Response status:', error.response.status);
+        console.error('Response headers:', error.response.headers);
+      }
+
+      throw error;
+    }
+  }
+
+  async getProtocolStatus(accountId) {
+    try {
+      const endpoint = `/organization/${this.organizationId}/accounts/${accountId}`;
+      const result = await this.makeAPICall('PUT', endpoint);
+      return result;
+    } catch (error) {
+      console.error(`[ZOHO] Error getting protocol status for account ${accountId}:`, error.message);
+      throw error;
+    }
+  }
+
+  async getAccountDetails(accountId) {
+    try {
+      const endpoint = `/accounts/${accountId}`;
+      const result = await this.makeAPICall('GET', endpoint);
+      return result;
+    } catch (error) {
+      console.error(`[ZOHO] Error getting account details for ${accountId}:`, error.message);
+      throw error;
+    }
   }
 
   async getUserUsage(accountId) {
     const endpoint = `/organization/${this.organizationId}/accounts/${accountId}/usage`;
+    return this.makeAPICall('GET', endpoint);
+  }
+
+  async getAccountInfo(accountId) {
+    const endpoint = `/organizations/${this.organizationId}/accounts/${accountId}`;
     return this.makeAPICall('GET', endpoint);
   }
 
