@@ -218,6 +218,33 @@ class ZohoService {
     const endpoint = `/organization/${this.organizationId}/accounts`;
     return this.makeAPICall('GET', endpoint);
   }
+
+  async resetPassword(accountId, newPassword, zuid) {
+    try {
+      console.log(`[ZOHO] Resetting password for account: ${accountId}`);
+      const endpoint = `/organization/${this.organizationId}/accounts/${accountId}`;
+
+      const payload = {
+        password: newPassword,
+        mode: "resetPassword",
+        zuid: zuid
+      };
+
+      const result = await this.makeAPICall('PUT', endpoint, payload);
+      console.log(`[ZOHO] Password reset successfully for account: ${accountId}`);
+      return result;
+    } catch (error) {
+      console.error(`[ZOHO] Error resetting password for account ${accountId}:`, error.message);
+
+      // Log detalhado para debugging
+      if (error.response) {
+        console.error('Response data:', error.response.data);
+        console.error('Response status:', error.response.status);
+      }
+
+      throw error;
+    }
+  }
 }
 
 export default ZohoService;

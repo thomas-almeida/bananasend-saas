@@ -167,3 +167,57 @@ export async function getAccountDetails(req, res) {
     res.status(500).json({ success: false, error: err.message });
   }
 }
+
+export async function resetPassword(req, res) {
+  try {
+    const { accountId, newPassword, zuid } = req.body;
+
+    // Validações básicas da senha
+    if (!newPassword || newPassword.length < 8) {
+      return res.status(400).json({
+        success: false,
+        error: 'A senha deve ter pelo menos 8 caracteres'
+      });
+    }
+
+    // Verificar se a senha atende a critérios de complexidade
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/;
+    if (!passwordRegex.test(newPassword)) {
+      return res.status(400).json({
+        success: false,
+        error: 'A senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial'
+      });
+    }
+
+    // Executar o reset de senha
+    const result = await zoho.resetPassword(accountId, newPassword, zuid);
+
+    res.json({
+      success: true,
+      message: 'Senha resetada com sucesso',
+      result
+    });
+  } catch (err) {
+    console.error('Error resetting password:', err.message);
+
+    // Tratamento de erros específicos do Zoho
+    if (err.response?.status === 404) {
+      return res.status(404).json({
+        success: false,
+        error: 'Conta não encontrada'
+      });
+    }
+
+    if (err.response?.status === 403) {
+      return res.status(403).json({
+        success: false,
+        error: 'Permissão negada para resetar senha'
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+}
