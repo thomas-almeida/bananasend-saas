@@ -9,12 +9,12 @@ const UserSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
   mails: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Mails' }],
   onboarding: {
-    age: Number,
-    linkedinUrl: String,
-    occupation: String,
-    workspace: String,
-    mail: String,
-    password: String,
+    age: { type: Number, default: 0 },
+    linkedinUrl: { type: String, default: `https://www.linkedin.com/in/${username}` },
+    occupation: { type: String, default: null },
+    workspace: { type: String, default: null },
+    mail: { type: String, default: null },
+    password: { type: String, default: null },
   }
 });
 
