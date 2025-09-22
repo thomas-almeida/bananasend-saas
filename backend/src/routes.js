@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, getUserById, getTotalUsers } from "./Controller/UserController.js";
+import { createUser, getUserById, getTotalUsers, updateOnboarding } from "./Controller/UserController.js";
 import { createSubscription, listSubscriptions, getSubscriptionById } from "./Controller/SubscriptionsController.js";
 import { sendEmail } from "./Controller/MailController.js";
 import { createZohoUser, enableProtocols, getUserUsage, testZohoConnection, listUsers, getAccountDetails, resetPassword } from "./Controller/zohoController.js";
@@ -14,6 +14,7 @@ api.get("/api/hello", (req, res) => {
 api.post("/users", createUser);
 api.get("/users/:id", getUserById);
 api.get("/wishlist-total", getTotalUsers);
+api.put("/users/onboarding", updateOnboarding);
 
 // Subscriptions
 api.post("/subscriptions", createSubscription);

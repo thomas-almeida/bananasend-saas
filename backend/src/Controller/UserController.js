@@ -36,3 +36,25 @@ export async function getTotalUsers(req, res) {
     count: users
   })
 }
+
+export async function updateOnboarding(req, res) {
+  const { id, age, linkedinUrl, occupation, workspace } = req.body;
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  user.onboarding = {
+    age,
+    linkedinUrl,
+    occupation,
+    workspace
+  };
+
+  user.updatedAt = Date.now();
+
+  await user.save();
+
+  res.status(200).json({ user });
+}

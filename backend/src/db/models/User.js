@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
   mails: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Mails' }],
   onboarding: {
     age: { type: Number, default: 0 },
-    linkedinUrl: { type: String, default: `https://www.linkedin.com/in/` },
+    linkedinUrl: { type: String, default: null },
     occupation: { type: String, default: null },
     workspace: { type: String, default: null },
     mail: { type: String, default: null },
