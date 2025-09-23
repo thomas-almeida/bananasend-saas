@@ -5,9 +5,15 @@ import Link from "next/link"
 import Button from "./Button"
 import { useSession } from "next-auth/react"
 import { sidebarOptions } from "../../utils/sidebar-options"
+import { useUserStore } from "@/store/userStore"
+import { useUserSessionSync } from "@/hooks/useUserSessionSync"
 
 export default function Sidebar() {
   const { data: session } = useSession()
+  useUserSessionSync();
+  const user = useUserStore(state => state)
+  console.log(user);
+
   return (
     <div className="w-48 p-4 font-mono sticky top-0 h-dvh bg-white border-r border-slate-200 shrink-0">
       <Image
@@ -40,14 +46,19 @@ export default function Sidebar() {
       </ul>
       <div className="absolute bottom-4 flex justify-between gap-1 items-center">
         <div>
-          {/* <Image
-            src={session?.user?.image!}
-            alt="profile-picture"
-            width={30}
-            height={30}
-            priority
-            className="rounded"
-          /> */}
+          {
+
+            session?.user?.image &&
+            <Image
+              src={session?.user?.image!}
+              alt="profile-picture"
+              width={30}
+              height={30}
+              priority
+              className="rounded"
+            />
+            
+            }
         </div>
         <div>
           <p className="text-sm">{session?.user?.name}</p>

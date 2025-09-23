@@ -19,20 +19,6 @@ export default async function Home() {
     }
   }
 
-  async function getWishListTotal() {
-    try {
-      const res = await fetch(`${baseURL}/wishlist-total`, { next: { revalidate: 60 } })
-      if (res.ok) {
-        const data: { count: number } = await res.json()
-        initialWishListTotal = data.count
-      }
-    } catch (e) {
-      // ignore; render without data
-    }
-  }
-
   await getSubscriptions()
-  await getWishListTotal()
-
   return <HomeClient initialPrices={initialPrices} initialWishListTotal={initialWishListTotal} />
 }

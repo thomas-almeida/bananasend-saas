@@ -9,10 +9,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hoverBgColor?: string
   className?: string
 }
-
-export default function Button({ value, bgColor, textColor, hoverBgColor, className, ...props }: ButtonProps) {
+  
+export default function Button({ value, bgColor, textColor, hoverBgColor, className, type = "submit", ...props }: ButtonProps) {
   return (
     <button
+      type={type}
       style={{
         backgroundColor: bgColor || "#2bb24a",
         color: textColor || "white",

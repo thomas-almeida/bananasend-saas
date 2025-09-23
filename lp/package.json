@@ -22,6 +22,7 @@
     "@editorjs/simple-image": "^1.6.0",
     "@editorjs/table": "^2.4.5",
     "@editorjs/warning": "^1.4.1",
+    "@hookform/resolvers": "^5.2.2",
     "@tiptap/extension-link": "^3.4.1",
     "@tiptap/extension-placeholder": "^3.4.1",
     "@tiptap/react": "^3.4.1",
@@ -33,8 +34,10 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-editor-js": "^2.1.0",
+    "react-hook-form": "^7.63.0",
     "recharts": "^3.2.0",
-    "tiptap-markdown": "^0.9.0"
+    "tiptap-markdown": "^0.9.0",
+    "zod": "^4.1.11"
   },
   "overrides": {
     "@tiptap/pm": "2.2.4"
