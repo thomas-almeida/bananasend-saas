@@ -221,3 +221,22 @@ export async function resetPassword(req, res) {
     });
   }
 }
+
+export async function sendZohoMail(req, res) {
+  try {
+    const { accountId, fromAddress, toAddress, ccAddress, bccAddress, subject, content } = req.body;
+    const result = await zoho.sendMail({
+      accountId,
+      fromAddress,
+      toAddress,
+      ccAddress,
+      bccAddress,
+      subject,
+      content
+    });
+    res.json({ success: true, result });
+  } catch (err) {
+    console.error('Error sending Zoho mail:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+}

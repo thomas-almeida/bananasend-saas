@@ -14,19 +14,14 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function sendEmail(req, res) {
-  const { to, title, subtitle, text } = req.body;
+  const { username, mail, to, title, content } = req.body;
 
   try {
     const info = await transporter.sendMail({
-      from: "Thomas Almeida <thomas@bananasend.top>",
+      from: `${username} <${mail}>`,
       to,
       subject: title,
-      html: `
-      <h3>${title}</h3>
-      <h4>${subtitle}</h4>
-      <hr />
-      <p>${text}</p>
-      `
+      html: `${content}`
     });
 
     return res.status(200).json({ message: "Email enviado com sucesso", info });

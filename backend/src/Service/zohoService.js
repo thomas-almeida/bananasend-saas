@@ -40,7 +40,7 @@ class ZohoService {
     }
   }
 
-  async makeAPICall(method, endpoint, data = null, customHeaders = {}) {
+  async makeAPICall(method, endpoint, data = null, customHeaders = {}, retryCount = 0) {
     try {
       const config = {
         method,
@@ -64,10 +64,10 @@ class ZohoService {
       return response.data;
 
     } catch (error) {
-      if (error.response?.status === 401) {
+      if (error.response?.status === 401 && retryCount < 2) {
         console.log('[ZOHO] Token expired, refreshing...');
         await this.refreshAccessToken();
-        return this.makeAPICall(method, endpoint, data, customHeaders); // retry
+        return this.makeAPICall(method, endpoint, data, customHeaders, retryCount + 1); // retry
       }
 
       console.error('[ZOHO] API call failed:', error.response?.data || error.message);
@@ -245,6 +245,20 @@ class ZohoService {
       throw error;
     }
   }
+
+  async sendMail({ accountId, fromAddress, toAddress, ccAddress = [], bccAddress = [], subject, content }) {
+    const endpoint = `/accounts/${accountId}/messages`;
+    const payload = {
+      fromAddress: fromAddress,
+      toAddress: toAddress,
+      ccAddress: ccAddress,
+      bccAddress: bccAddress,
+      subject: subject,
+      content: content
+    };
+    return this.makeAPICall('POST', endpoint, payload);
+  }
 }
+
 
 export default ZohoService;
