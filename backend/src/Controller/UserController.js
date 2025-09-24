@@ -47,10 +47,10 @@ export async function updateOnboarding(req, res) {
 
   user.onboarding = {
     age,
-    mail,
-    occupation,
     linkedinUrl,
-    workspace
+    occupation,
+    workspace,
+    mail
   };
 
   user.updatedAt = Date.now();
