@@ -1,4 +1,5 @@
 import ZohoService from '../Service/zohoService.js';
+import User from '../db/models/User.js';
 const zoho = new ZohoService();
 
 export async function createZohoUser(req, res) {
@@ -237,6 +238,26 @@ export async function sendZohoMail(req, res) {
     res.json({ success: true, result });
   } catch (err) {
     console.error('Error sending Zoho mail:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+}
+
+export async function addEmailToUser(req, res) {
+  try {
+    const { zuid, aliasEmail, userId } = req.body;
+    const result = await zoho.addAliasToUser(zuid, aliasEmail);
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    user.onboarding.mail = aliasEmail;
+    await user.save();
+
+    res.json({ success: true, result });
+  } catch (err) {
+    console.error('Error adding email alias to user:', err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 }

@@ -38,7 +38,7 @@ export async function getTotalUsers(req, res) {
 }
 
 export async function updateOnboarding(req, res) {
-  const { id, age, linkedinUrl, occupation, workspace } = req.body;
+  const { id, age, mail, occupation, workspace } = req.body;
   const user = await User.findById(id);
 
   if (!user) {
@@ -47,7 +47,7 @@ export async function updateOnboarding(req, res) {
 
   user.onboarding = {
     age,
-    linkedinUrl,
+    mail,
     occupation,
     workspace
   };

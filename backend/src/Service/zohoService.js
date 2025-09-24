@@ -258,6 +258,20 @@ class ZohoService {
     };
     return this.makeAPICall('POST', endpoint, payload);
   }
+
+  async addAliasToUser(zuid, aliasEmail) {
+
+    const zoid = this.organizationId;
+    const endpoint = `/organization/${zoid}/accounts/${zuid}`;
+    const payload = {
+      zuid: zuid,
+      mode: "addEmailAlias",
+      emailAlias: [
+        aliasEmail
+      ]
+    };
+    return this.makeAPICall('PUT', endpoint, payload);
+  }
 }
 
 
