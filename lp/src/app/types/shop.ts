@@ -1,16 +1,16 @@
 export type ShopProduct = {
-  externalId: String,
-  name: String,
-  description: String,
-  quantity: Number,
-  price: Number
+  externalId: string,
+  name: string,
+  description: string,
+  quantity: number,
+  price: number
 }
 
 export type PaymentIntent = {
-  frequency: String,
-  methods: String[],
+  frequency: string,
+  methods: string[],
   products: ShopProduct[],
-  returnUrl: String,
-  completionUrl: String,
+  returnUrl: string,
+  completionUrl: string,
   allowCupons: boolean,
 }
