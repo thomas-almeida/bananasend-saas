@@ -16,13 +16,9 @@ export default function Trends({ userData }: TrendsProps) {
       <div className="py-8 mt-8 relative">
         <TrendLineDemo />
         {
-          userData?.onboarding?.linkedinUrl == null &&
+          
           <div className="bg-black/75 backdrop-blur-xs rounded text-center absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center text-white">
-            <p className="text-xl text-center w-[450px]">Conecte seu perfil do LinkedIn para começar a ver as tendências personalizadas do seu nicho e da sua profissão.</p>
-            <Button
-              value="Abrir Configurações"
-              className="mt-6 py-2 px-4"
-            />
+            <p className="text-xl text-center w-[450px]">Em Breve</p>
           </div>
         }
       </div>

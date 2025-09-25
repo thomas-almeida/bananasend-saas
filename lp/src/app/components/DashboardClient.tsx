@@ -10,17 +10,15 @@ import { useUserStore } from "@/store/userStore"
 
 export default function DashboardClient() {
   useUserSessionSync();
-  const user = useUserStore(state => state)
-  console.log(user);
-
+  const userStore = useUserStore(state => state)
   return (
     <div className="flex flex-col gap-8">
       <WeekCalendar daysAmount={7} />
       <Kpis />
       <DailyApointments />
-      <Trends userData={user.user ?? undefined} />
+      <Trends userData={userStore.user ?? undefined} />
       <Bar />
-      {user.user && <OnboardingForm userData={user.user} />}
+      {userStore.user && <OnboardingForm userData={userStore.user} />}
     </div>
   )
 }

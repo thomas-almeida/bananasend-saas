@@ -9,10 +9,9 @@ import type { SubscriptionPlan } from "./types/subscriptions";
 
 interface HomeClientProps {
   initialPrices: SubscriptionPlan[]
-  initialWishListTotal: number
 }
 
-export default function HomeClient({ initialPrices, initialWishListTotal }: HomeClientProps) {
+export default function HomeClient({ initialPrices }: HomeClientProps) {
   const [prices] = useState<SubscriptionPlan[]>(initialPrices)
 
   // Allow only one FAQ <details> open at a time

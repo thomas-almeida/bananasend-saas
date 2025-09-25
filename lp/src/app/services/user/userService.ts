@@ -17,7 +17,7 @@ export async function updateOnboarding(
   payload: {
     id: string;
     age: number;
-    linkedinUrl: string;
+    mail: string;
     workspace: string;
   }
 ) {
@@ -30,5 +30,15 @@ export async function updateOnboarding(
     mails: response.data.user.mails,
     onboarding: response.data.user.onboarding,
   });
+  return response.data;
+}
+
+export async function addAlias(
+  payload: {
+    zuid: string;
+    aliasEmail: string;
+    userId: string;
+  }) {
+  const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/zoho/add-alias`, payload);
   return response.data;
 }

@@ -1,7 +1,5 @@
 import Product from "../db/models/Products.js"
 
-//68d58eec64120e2c406c95ab
-
 export async function createProduct(req, res) {
   const {
     name,

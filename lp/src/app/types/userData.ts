@@ -9,5 +9,6 @@ export type UserData = {
     occupation: string;
     linkedinUrl: string;
     workspace: string;
+    mail: string;
   };
 };

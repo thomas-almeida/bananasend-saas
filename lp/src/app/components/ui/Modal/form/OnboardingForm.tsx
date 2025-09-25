@@ -11,15 +11,21 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { onboardingSchema, OnboardingFormValues } from "@/app/schemas/onboardingSchema"
 
 import React, { useState } from "react";
-import { updateOnboarding } from "@/app/services"
+import { addAlias, updateOnboarding } from "@/app/services"
 
 interface OnboardingProps {
   userData: UserData;
 }
 
 export default function OnboardingForm({ userData }: OnboardingProps) {
-  console.log("User Data:", userData);
-  const [visible, setVisible] = useState(userData.onboarding.linkedinUrl == null);
+  const [visible, setVisible] = useState(userData.onboarding.mail == null);
+
+  const splittedName = userData.username.split(" ")
+  const firstName = splittedName[0]
+  const lastName = splittedName.length > 1 ? splittedName[splittedName.length - 1] : ''
+
+  const suggestedEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@bananasend.top`
+
   const handleClose = () => setVisible(false);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<OnboardingFormValues>({
     resolver: zodResolver(onboardingSchema),
@@ -27,6 +33,7 @@ export default function OnboardingForm({ userData }: OnboardingProps) {
       id: userData.id,
       age: userData.onboarding.age ?? 18,
       occupation: userData.onboarding.occupation ?? '',
+      mail: userData.onboarding.mail ?? '',
       linkedinUrl: userData.onboarding.linkedinUrl ?? '',
       workspace: userData.onboarding.workspace ?? '',
     }
@@ -45,15 +52,27 @@ export default function OnboardingForm({ userData }: OnboardingProps) {
       id: userData.id,
       age: data.age,
       occupation: data.occupation,
-      linkedinUrl: data.linkedinUrl || "",
+      mail: data.mail || "",
+      linkedInUrl: data.linkedinUrl,
       workspace: data.workspace,
     }
 
     try {
-      const response = await updateOnboarding(payload);
-      if (!response?.user) {
+      const updateOnboardingResponse = await updateOnboarding(payload);
+      const aliasResponse = await addAlias({
+        aliasEmail: payload.mail,
+        userId: userData.id,
+        zuid: "899565218"
+      })
+
+      if (!updateOnboardingResponse?.user) {
         throw new Error('Failed to submit onboarding data');
       }
+
+      if (!aliasResponse?.success) {
+        throw new Error('Failed to submit onboarding data');
+      }
+
       handleClose();
     } catch (error) {
       console.error('Error submitting onboarding data:', error);
@@ -65,7 +84,7 @@ export default function OnboardingForm({ userData }: OnboardingProps) {
       <div className="p-4">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Queremos te conhecer melhor!</h2>
-          <p className="mb-4">Preencha algumas informações para tornar sua experiência ainda melhor e mais personalizada.</p>
+          <p className="mb-4">Crie seu usuario de email e preencha algumas informações para tornar sua experiência ainda melhor e mais personalizada.</p>
         </div>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex gap-4">
@@ -85,12 +104,21 @@ export default function OnboardingForm({ userData }: OnboardingProps) {
             {errors.age && <span className="text-red-500">{errors.age.message}</span>}
             {errors.occupation && <span className="text-red-500">{errors.occupation.message}</span>}
           </div>
-          <div>
+          <div className="relative">
             <Input
               type="text"
-              placeholder="LinkedIn URL"
+              placeholder="Url do LinkedIn"
               {...register("linkedinUrl")}
             />
+            {errors.linkedinUrl && <span className="text-red-500">{errors.linkedinUrl.message}</span>}
+          </div>
+          <div className="relative">
+            <Input
+              type="email"
+              placeholder={`Email BananaSend: ${suggestedEmail}`}
+              {...register("mail")}
+            />
+            {errors.mail && <span className="text-red-500">{errors.mail.message}</span>}
           </div>
           <div>
             <Select

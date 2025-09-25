@@ -2,7 +2,7 @@
 
 'use client'
 
-import { useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { EDITOR_JS_TOOLS } from './tools/tools';
 import EditorJS from '@editorjs/editorjs'
 import './editor-styles.module.css';
@@ -29,73 +29,98 @@ const DEFAULT_DATA = {
 };
 
 // Esta função irá garantir que o componente seja renderizado uma única vez
-const RenderEditor = (ElementId: string) => {
-  const rendered = useRef<false | true>(false)
+// We'll initialize EditorJS inside the component and expose a `save` method
+// via ref so parent can request the editor content.
 
-  useEffect(() => {
-    if (!rendered.current) {
-      rendered.current = true;
-
-      // Aqui chamamos a execução do EditorJS e também podemos passar os parâmetros necessários para execução
-      new EditorJS({
-        holder: ElementId,
-        tools: {
-          ...EDITOR_JS_TOOLS,
-          header: {
-            class: EDITOR_JS_TOOLS.header.class,
-            inlineToolbar: true,
-            config: {
-              placeholder: 'Digite um título...',
-              levels: [1, 2, 3, 4],
-              defaultLevel: 1
-            }
-          } as any
-        },
-        autofocus: true,
-        data: DEFAULT_DATA,
-        placeholder: 'Digite algo...',
-        minHeight: 200,
-        i18n: {
-          messages: {
-            toolNames: {
-              'Text': 'Texto',
-              'Image': 'Imagem',
-              'Heading': 'Título',
-              'List': 'Lista',
-              'Quote': 'Citação',
-              'Warning': 'Aviso',
-              'Code': 'Código',
-              'Table': 'Tabela',
-              'InlineCode': 'Código Inline',
-              'Unordered List': 'Lista não ordenada',
-              'Ordered List': 'Lista ordenada',
-            },
-            tools: {
-              'heading': {
-                'Heading': 'Título',
-                'Level': 'Nível'
-              },
-            },
-            blockTunes: {
-              'delete': {
-                'Confirm': 'Tem certeza?'
-              },
-            }
-          }
-        },
-      });
-    } else {
-      return
-    }
-  }, [ElementId])
+type EditorHandle = {
+  save: () => Promise<any>
 }
 
-export default function Editor() {
+const Editor = forwardRef<EditorHandle>((_, ref) => {
   const elementId = 'editorjs' // Defina aqui o ID para o elemento onde o Editor.js será renderizado
 
-  RenderEditor(elementId)
+  const rendered = useRef(false)
+  const editorRef = useRef<EditorJS | null>(null)
+
+  useEffect(() => {
+    if (rendered.current) return
+    rendered.current = true
+
+    const instance = new EditorJS({
+      holder: elementId,
+      tools: {
+        ...EDITOR_JS_TOOLS,
+        header: {
+          class: EDITOR_JS_TOOLS.header.class,
+          inlineToolbar: true,
+          config: {
+            placeholder: 'Digite um título...',
+            levels: [1, 2, 3, 4],
+            defaultLevel: 1
+          }
+        } as any
+      },
+      autofocus: true,
+      data: DEFAULT_DATA,
+      placeholder: 'Digite algo...',
+      minHeight: 200,
+      i18n: {
+        messages: {
+          toolNames: {
+            'Text': 'Texto',
+            'Image': 'Imagem',
+            'Heading': 'Título',
+            'List': 'Lista',
+            'Quote': 'Citação',
+            'Warning': 'Aviso',
+            'Code': 'Código',
+            'Table': 'Tabela',
+            'InlineCode': 'Código Inline',
+            'Unordered List': 'Lista não ordenada',
+            'Ordered List': 'Lista ordenada',
+          },
+          tools: {
+            'heading': {
+              'Heading': 'Título',
+              'Level': 'Nível'
+            },
+          },
+          blockTunes: {
+            'delete': {
+              'Confirm': 'Tem certeza?'
+            },
+          }
+        }
+      },
+    });
+
+    editorRef.current = instance
+
+    return () => {
+      if (editorRef.current && (editorRef.current as any).destroy) {
+        ;(editorRef.current as any).destroy()
+        editorRef.current = null
+      }
+    }
+  }, [elementId])
+
+  useImperativeHandle(ref, () => ({
+    save: async () => {
+      if (!editorRef.current) return null
+      try {
+        const saved = await (editorRef.current as any).save()
+        return saved
+      } catch (e) {
+        return null
+      }
+    }
+  }))
 
   return (
     <div id={elementId}></div>
   )
-}
+})
+
+Editor.displayName = 'Editor'
+
+export default Editor

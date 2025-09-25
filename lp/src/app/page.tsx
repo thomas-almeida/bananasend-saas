@@ -5,7 +5,7 @@ import type { SubscriptionsResponse, SubscriptionPlan } from "./types/subscripti
 export default async function Home() {
   const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL
   let initialPrices: SubscriptionPlan[] = []
-  let initialWishListTotal: number = 0
+
 
   async function getSubscriptions() {
     try {
@@ -20,5 +20,5 @@ export default async function Home() {
   }
 
   await getSubscriptions()
-  return <HomeClient initialPrices={initialPrices} initialWishListTotal={initialWishListTotal} />
+  return <HomeClient initialPrices={initialPrices} />
 }

@@ -9,7 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hoverBgColor?: string
   className?: string
 }
-  
+
 export default function Button({ value, bgColor, textColor, hoverBgColor, className, type = "submit", ...props }: ButtonProps) {
   return (
     <button
@@ -17,11 +17,12 @@ export default function Button({ value, bgColor, textColor, hoverBgColor, classN
       style={{
         backgroundColor: bgColor || "#2bb24a",
         color: textColor || "white",
+        pointerEvents: props.disabled ? "none" : "auto"
       }}
       className={`p-1.5 rounded transition-colors cursor-pointer ${className}`}
       {...props}
     >
-      {value}
+      {props.disabled ? "Produto Vendido" : value}
     </button>
   )
 }
