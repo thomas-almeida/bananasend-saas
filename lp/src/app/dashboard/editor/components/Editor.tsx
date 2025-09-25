@@ -1,8 +1,7 @@
 // components/Editor.tsx
-
 'use client'
 
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { EDITOR_JS_TOOLS } from './tools/tools';
 import EditorJS from '@editorjs/editorjs'
 import './editor-styles.module.css';
@@ -28,17 +27,12 @@ const DEFAULT_DATA = {
   ]
 };
 
-// Esta função irá garantir que o componente seja renderizado uma única vez
-// We'll initialize EditorJS inside the component and expose a `save` method
-// via ref so parent can request the editor content.
-
 type EditorHandle = {
   save: () => Promise<any>
 }
 
 const Editor = forwardRef<EditorHandle>((_, ref) => {
   const elementId = 'editorjs' // Defina aqui o ID para o elemento onde o Editor.js será renderizado
-
   const rendered = useRef(false)
   const editorRef = useRef<EditorJS | null>(null)
 
@@ -103,18 +97,6 @@ const Editor = forwardRef<EditorHandle>((_, ref) => {
       }
     }
   }, [elementId])
-
-  useImperativeHandle(ref, () => ({
-    save: async () => {
-      if (!editorRef.current) return null
-      try {
-        const saved = await (editorRef.current as any).save()
-        return saved
-      } catch (e) {
-        return null
-      }
-    }
-  }))
 
   return (
     <div id={elementId}></div>
