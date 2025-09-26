@@ -8,6 +8,6 @@ export async function createBillingIntent(payload) {
             Authorization: `Bearer ${process.env.ABKT_DEV_KEY}`
         }
     })
-    console.log(response.data)
+    
     return response.data
 }
