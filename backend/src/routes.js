@@ -4,6 +4,7 @@ import { createSubscription, listSubscriptions, getSubscriptionById } from "./Co
 import { sendEmail } from "./Controller/MailController.js";
 import { createZohoUser, enableProtocols, getUserUsage, testZohoConnection, listUsers, getAccountDetails, resetPassword, sendZohoMail, addEmailToUser } from "./Controller/zohoController.js";
 import { createProduct, getProductsById } from "./Controller/ShopController.js"
+import { createABKTPayment, triggerWebhook } from "./Controller/paymentController.js"
 
 const api = Router();
 
@@ -38,5 +39,9 @@ api.put("/zoho/add-alias", addEmailToUser);
 
 api.post("/shop/create-product", createProduct)
 api.get("/shop/get-product-by-id/:id", getProductsById)
+
+//ABKT
+api.post("/abkt/create-payment", createABKTPayment)
+api.post("/abkt/trigger-webhook", triggerWebhook)
 
 export default api;
