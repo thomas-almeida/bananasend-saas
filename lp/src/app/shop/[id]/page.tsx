@@ -55,8 +55,8 @@ export default function ShopPage() {
       methods: ["PIX"],
       products: [mockProduct],
       allowCupons: true,
-      completionUrl: "http://localhost:3000/shop/68d58eec64120e2c406c95ab",
-      returnUrl: "http://localhost:3000/shop/68d58eec64120e2c406c95ab"
+      completionUrl: "https://bananasend.top/shop/obrigado",
+      returnUrl: "https://bananasend.top/shop/68d58eec64120e2c406c95ab"
     })
 
     if (!response?.url) {
