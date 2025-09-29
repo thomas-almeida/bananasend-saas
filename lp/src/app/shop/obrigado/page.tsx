@@ -24,9 +24,9 @@ export default function Obrigado() {
                     </div>
                 </header>
                 <div>
-                    <h1 className="text-4xl py-2 tracking-tighter mt-2">Obrigado</h1>
+                    <h1 className="text-4xl py-2 tracking-tighter mt-2">Obrigado!</h1>
                     <p className="py-2 text-lg">Obrigado por sua compra!</p>
-                    <p className="py-2 text-lg">Em breve entraremos em contato para marcar a data de entrega com voce! caso queria me chame no whatsapp:</p>
+                    <p className="py-2 text-lg">Em breve entraremos em contato para marcar a data de entrega! caso queria me chame no whatsapp:</p>
                     <Link href={"https://wa.me/5511949098312"}>
                         <Button
                             value="Tirar Duvidas no Whatsapp"
