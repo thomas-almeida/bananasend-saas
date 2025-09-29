@@ -1,4 +1,6 @@
 import { createBillingIntent } from "../Service/paymentService.js"
+import Product from "../db/models/Products.js";
+import User from "../db/models/User.js";
 
 export async function createABKTPayment(req, res) {
     const {
@@ -31,7 +33,9 @@ export async function triggerWebhook(req, res) {
     const webhookSecret = req.query.webhookSecret
 
     if (webhookSecret !== process.env.WEBHOOK_SECRET) {
-        return res.status(401).json({ error: 'Invalid webhook secret' });
+        return res.status(401).json({
+            error: 'Invalid webhook secret'
+        });
     }
 
     // Verifica se a requisição é POST e tem o content-type correto
@@ -57,14 +61,12 @@ export async function triggerWebhook(req, res) {
 
         // Dados do pagamento
         console.log('Valor pago:', payment.amount);
-        console.log('Taxa:', payment.fee);
         console.log('Método:', payment.method);
 
         // Dados da cobrança
         console.log('ID da cobrança:', billing.id);
         console.log('Status da cobrança:', billing.status);
         console.log('Valor total:', billing.paidAmount);
-        console.log('Frequência:', billing.frequency);
 
         // Dados do cliente
         if (billing.customer) {
@@ -76,13 +78,62 @@ export async function triggerWebhook(req, res) {
         // Produtos comprados
         if (billing.products && billing.products.length > 0) {
             console.log('Produtos:', billing.products);
+
+            // Marca cada produto como vendido (active: false)
+            for (const productInfo of billing.products) {
+                const { externalId } = productInfo;
+                if (externalId) {
+                    try {
+                        const updatedProduct = await Product.findOneAndUpdate(
+                            { _id: externalId },
+                            { active: false, updatedAt: new Date() }
+                        );
+                        if (updatedProduct) {
+                            console.log(`Produto ${externalId}:${updatedProduct.name} marcado como vendido`);
+                        } else {
+                            console.log(`Produto com externalId ${externalId} não encontrado`);
+                        }
+                    } catch (error) {
+                        console.error(`Erro ao atualizar produto ${externalId}:`, error);
+                    }
+                }
+            }
         }
 
-        // Aqui você pode adicionar lógica para:
-        // - Atualizar status da assinatura no seu banco
-        // - Enviar email de confirmação
-        // - Ativar serviços do usuário
-        // - Salvar dados do pagamento para controle interno
+        // Criar ou atualizar usuário com dados do cliente
+        if (billing.customer && billing.customer.metadata) {
+            const { email, name } = billing.customer.metadata;
+            if (email) {
+                try {
+                    // Verifica se usuário já existe
+                    let user = await User.findOne({ email });
+
+                    if (!user) {
+                        // Cria novo usuário
+                        user = new User({
+                            username: name || email.split('@')[0],
+                            email: email,
+                            subscriptionId: "FREE",
+                            createdAt: new Date(),
+                            updatedAt: new Date()
+                        });
+                        await user.save();
+                        console.log(`Novo usuário criado: ${email}`);
+                    } else {
+                        console.log(`Usuário já existe: ${email}`);
+                    }
+
+                    // Pode adicionar mais lógica aqui, como:
+                    // - Atualizar dados do usuário se necessário
+                    // - Associar a compra ao usuário
+                    // - Enviar email de boas-vindas
+
+                } catch (error) {
+                    console.error('Erro ao processar usuário:', error);
+                }
+            }
+        }
+
     } else {
         console.log('Evento recebido (não é billing.paid):', event.event);
     }
