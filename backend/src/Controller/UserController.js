@@ -1,4 +1,5 @@
 import User from "../db/models/User.js";
+import DailyActions from "../db/models/DailyActions.js";
 
 export async function createUser(req, res) {
   const { username, email } = req.body;
@@ -58,4 +59,27 @@ export async function updateOnboarding(req, res) {
   await user.save();
 
   res.status(200).json({ user });
+}
+
+export async function addDailyAction(req, res) {
+  const { userId, action } = req.body;
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const dailyAction = new DailyActions({
+    userId,
+    action,
+  });
+
+  await dailyAction.save();
+
+  user.progress.actions.push(dailyAction._id);
+  user.updatedAt = Date.now();
+
+  await user.save();
+
+  res.status(200).json({ user })
 }

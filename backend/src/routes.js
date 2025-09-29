@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, getUserById, getTotalUsers, updateOnboarding } from "./Controller/UserController.js";
+import { createUser, getUserById, getTotalUsers, updateOnboarding, addDailyAction } from "./Controller/UserController.js";
 import { createSubscription, listSubscriptions, getSubscriptionById } from "./Controller/SubscriptionsController.js";
 import { sendEmail } from "./Controller/MailController.js";
 import { createZohoUser, enableProtocols, getUserUsage, testZohoConnection, listUsers, getAccountDetails, resetPassword, sendZohoMail, addEmailToUser } from "./Controller/zohoController.js";
@@ -17,6 +17,7 @@ api.post("/users", createUser);
 api.get("/users/:id", getUserById);
 api.get("/wishlist-total", getTotalUsers);
 api.put("/users/onboarding", updateOnboarding);
+api.put("/users/add-action", addDailyAction);
 
 // Subscriptions
 api.post("/subscriptions", createSubscription);
@@ -43,46 +44,5 @@ api.get("/shop/get-product-by-id/:id", getProductsById)
 //ABKT
 api.post("/abkt/create-payment", createABKTPayment)
 api.post("/abkt/webhook", triggerWebhook)
-api.post("/abkt/test-webhook", (req, res) => {
-    const testEvent = {
-        event: 'billing.paid',
-        data: {
-            payment: {
-                amount: 1000,
-                fee: 80,
-                method: 'PIX'
-            },
-            billing: {
-                amount: 1000,
-                couponsUsed: [],
-                customer: {
-                    id: 'cust_4hnLDN3YfUWrwQBQKYMwL6Ar',
-                    metadata: {
-                        cellphone: '11111111111',
-                        email: 'christopher@abacatepay.com',
-                        name: 'Christopher Ribeiro',
-                        taxId: '12345678901'
-                    }
-                },
-                frequency: 'ONE_TIME',
-                id: 'bill_QgW1BT3uzaDGR3ANKgmmmabZ',
-                kind: ['PIX'],
-                paidAmount: 1000,
-                products: [
-                    {
-                        externalId: "123",
-                        id: "prod_RGKGsjBWsJwRn1mHyGMFJNjP",
-                        quantity: 1
-                    }
-                ],
-                status: "PAID"
-            }
-        },
-        devMode: false
-    };
-
-    // Simula o webhook
-    triggerWebhook({ ...req, body: testEvent, query: { webhookSecret: process.env.WEBHOOK_SECRET } }, res);
-});
 
 export default api;

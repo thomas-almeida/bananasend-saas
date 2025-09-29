@@ -15,7 +15,12 @@ const UserSchema = new mongoose.Schema({
     workspace: { type: String, default: null },
     mail: { type: String, default: null },
     password: { type: String, default: null },
-  }
+  },
+  progress: {
+    level: { type: Number, default: 0 },
+    currentPoints: { type: Number, default: 0 },
+    actions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'DailyActions' }],
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
