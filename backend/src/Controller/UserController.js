@@ -77,6 +77,14 @@ export async function addDailyAction(req, res) {
   await dailyAction.save();
 
   user.progress.actions.push(dailyAction._id);
+  
+  if (user.progress.currentPoints + 25 >= 100) {
+    user.progress.level += 1;
+    user.progress.currentPoints = 0;
+  } else {
+    user.progress.currentPoints += 25;
+  }
+  
   user.updatedAt = Date.now();
 
   await user.save();
