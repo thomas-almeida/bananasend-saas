@@ -2,11 +2,42 @@
 
 import { useRef, useState } from "react";
 import Suggestion from "./DailyApointments/Suggestion";
+import { IoMdAdd } from "react-icons/io";
+import { addDailyAction } from "../../services/user/userService";
+import { UserData } from "@/app/types/userData";
 
-export default function DailyApointments() {
+interface TrendsProps {
+  userData?: UserData;
+  setShowNotification: (show: boolean) => void;
+  setNotificationMessage: (message: string) => void;
+  setNotificationType: (type: "success" | "error" | "warning" | "info") => void;
+}
+
+export default function DailyApointments({ userData, setShowNotification, setNotificationMessage, setNotificationType }: TrendsProps) {
   const [open, setOpen] = useState(false)
   const [text, setText] = useState("")
+  const [loading, setLoading] = useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null)
+
+  function handleShowNotification() {
+    setShowNotification(true)
+    setNotificationMessage("Ação adicionada com sucesso")
+    setNotificationType("success")
+  }
+
+  async function handleAdd() {
+    setLoading(true)
+
+    await addDailyAction({
+      userId: userData?.id ?? "",
+      action: text
+    })
+
+    setLoading(false)
+    setText("")
+    inputRef.current?.focus()
+    handleShowNotification()
+  }
 
   return (
     <div className="border border-slate-200 p-4 rounded shadow">
@@ -45,21 +76,13 @@ export default function DailyApointments() {
             />
             <button
               type="button"
-              aria-label="Falar"
-              className="flex items-center justify-center w-10 h-8 rounded bg-[#707270] text-white hover:opacity-90 transition cursor-pointer"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5">
-                <path d="M12 14a3 3 0 0 0 3-3V7a3 3 0 1 0-6 0v4a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V20H9v2h6v-2h-2v-2.08A7 7 0 0 0 19 11h-2Z" />
-              </svg>
-            </button>
-            <button
-              type="button"
               aria-label="Adicionar"
-              className="flex items-center justify-center w-10 h-8 rounded bg-[#2bb24a] text-white hover:opacity-90 transition cursor-pointer"
+              className="flex items-center justify-center gap-2 px-4 h-8 rounded bg-[#2bb24a] text-white hover:opacity-90 transition cursor-pointer"
+              onClick={handleAdd}
+              disabled={loading}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                <path d="M9 7v4h8v2H9v4l-5-5 5-5z" />
-              </svg>
+              <p>{loading ? "Enviando..." : "Adicionar"}</p>
+              <IoMdAdd />
             </button>
           </span>
 

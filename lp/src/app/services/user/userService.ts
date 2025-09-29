@@ -29,6 +29,7 @@ export async function updateOnboarding(
     subscription: response.data.user.subscriptionId,
     mails: response.data.user.mails,
     onboarding: response.data.user.onboarding,
+    progress: response.data.user.progress
   });
   return response.data;
 }
@@ -40,5 +41,14 @@ export async function addAlias(
     userId: string;
   }) {
   const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/zoho/add-alias`, payload);
+  return response.data;
+}
+
+export async function addDailyAction(
+  payload: {
+    userId: string;
+    action: string;
+  }) {
+  const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/add-action`, payload);
   return response.data;
 }

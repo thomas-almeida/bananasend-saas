@@ -22,6 +22,7 @@ export function useUserSessionSync() {
             subscription: response.user.subscriptionId,
             mails: response.user.mails,
             onboarding: response.user.onboarding,
+            progress: response.user.progress
           });
         } catch (e) {
           console.error('Failed to fetch user data', e);

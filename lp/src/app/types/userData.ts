@@ -11,4 +11,9 @@ export type UserData = {
     workspace: string;
     mail: string;
   };
+  progress: {
+    level: number;
+    currentPoints: number;
+    actions: string[]
+  }
 };
