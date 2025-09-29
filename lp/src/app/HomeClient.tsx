@@ -55,8 +55,7 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
               <ul className="flex items-center gap-4 text-sm">
                 <li>
                   <Link
-                    href="https://www.tabnews.com.br/thommdev/quem-nao-e-visto-nao-e-lembrado"
-                    target="_blank"
+                    href="#faq"
                     className="hover:underline"
                   >
                     O que é?
