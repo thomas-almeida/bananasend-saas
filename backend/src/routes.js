@@ -9,7 +9,7 @@ import { createABKTPayment, triggerWebhook } from "./Controller/paymentControlle
 const api = Router();
 
 api.get("/api/hello", (req, res) => {
-  res.send("🍌✉️!!");
+    res.send("🍌✉️!!");
 });
 
 // Users
@@ -42,6 +42,47 @@ api.get("/shop/get-product-by-id/:id", getProductsById)
 
 //ABKT
 api.post("/abkt/create-payment", createABKTPayment)
-api.post("/abkt/trigger-webhook", triggerWebhook)
+api.post("/abkt/webhook", triggerWebhook)
+api.post("/abkt/test-webhook", (req, res) => {
+    const testEvent = {
+        event: 'billing.paid',
+        data: {
+            payment: {
+                amount: 1000,
+                fee: 80,
+                method: 'PIX'
+            },
+            billing: {
+                amount: 1000,
+                couponsUsed: [],
+                customer: {
+                    id: 'cust_4hnLDN3YfUWrwQBQKYMwL6Ar',
+                    metadata: {
+                        cellphone: '11111111111',
+                        email: 'christopher@abacatepay.com',
+                        name: 'Christopher Ribeiro',
+                        taxId: '12345678901'
+                    }
+                },
+                frequency: 'ONE_TIME',
+                id: 'bill_QgW1BT3uzaDGR3ANKgmmmabZ',
+                kind: ['PIX'],
+                paidAmount: 1000,
+                products: [
+                    {
+                        externalId: "123",
+                        id: "prod_RGKGsjBWsJwRn1mHyGMFJNjP",
+                        quantity: 1
+                    }
+                ],
+                status: "PAID"
+            }
+        },
+        devMode: false
+    };
+
+    // Simula o webhook
+    triggerWebhook({ ...req, body: testEvent, query: { webhookSecret: process.env.WEBHOOK_SECRET } }, res);
+});
 
 export default api;
