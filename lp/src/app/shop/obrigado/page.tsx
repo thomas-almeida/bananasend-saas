@@ -1,6 +1,29 @@
 import Image from "next/image"
 import Button from "@/app/components/ui/Button"
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Obrigado pela sua compra! - BananaSend Shop",
+  description: "Obrigado por comprar na BananaSend Shop! Em breve entraremos em contato para marcar a entrega do seu produto.",
+  keywords: "obrigado, compra, entrega, são paulo, bananasend shop",
+  openGraph: {
+    title: "Obrigado pela sua compra!",
+    description: "Obrigado por comprar na BananaSend Shop! Em breve entraremos em contato.",
+    type: "website",
+    locale: "pt_BR",
+    siteName: "BananaSend Shop",
+  },
+  twitter: {
+    card: "summary",
+    title: "Obrigado pela sua compra!",
+    description: "Obrigado por comprar na BananaSend Shop! Em breve entraremos em contato.",
+  },
+  robots: {
+    index: false, // Não indexar página de obrigado
+    follow: false,
+  },
+}
 
 export default function Obrigado() {
     return (
