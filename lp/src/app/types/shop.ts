@@ -1,9 +1,12 @@
+
 export type ShopProduct = {
-  externalId: string,
+  id: string,
   name: string,
   description: string,
+  images?: string[],
   quantity: number,
-  price: number
+  price: number,
+  active?: boolean
 }
 
 export type PaymentIntent = {

@@ -7,11 +7,16 @@ import Button from "@/app/components/ui/Button";
 import { createPaymentIntent, getProductsById } from "@/app/services";
 import { redirect } from "next/navigation";
 
+import { ShopProduct } from "@/app/types/shop";
+import ModalComposition from "@/app/components/ui/Modal/ModalComposition";
+import Link from "next/link";
+
 const mockProduct = {
   externalId: "68d58eec64120e2c406c95ab",
+  id: "68d58eec64120e2c406c95ab",
   name: "Monitor AOC Hero 75hz + Suporte Articulado",
   description: "Monitor Usado AOC Hero 75hz, estou indo embora do Brasil e estou me desfazendo de alguns itens, um deles o meu monitor, 2 anos de uso e em perfeito estado, acompanha suporte de monitor articulado north bayou novo! Entrego nas estaçoes de trem e metrô de SP.",
-  price: 385,
+  price: 38500,
   quantity: 1
 };
 
@@ -19,8 +24,12 @@ export default function ShopPage() {
 
   const params = useParams()
   const id = params.id
+  const [modalVisible, setModalVisible] = useState(false)
   const [productAtive, setActive] = useState(true)
   const [isFetching, setIsFetching] = useState(false)
+  const [produtcObj, setProductObj] = useState<ShopProduct | null>(null)
+
+
 
   async function getProduct() {
     const response = await getProductsById(String(id))
@@ -30,6 +39,8 @@ export default function ShopPage() {
     }
 
     setActive(response?.active)
+    setModalVisible(!response?.active)
+    setProductObj(response?.product)
   }
 
   useEffect(() => {
@@ -38,6 +49,7 @@ export default function ShopPage() {
 
   async function createPayment() {
     setIsFetching(true)
+    console.log(produtcObj)
     const response = await createPaymentIntent({
       frequency: "ONE_TIME",
       methods: ["PIX"],
@@ -47,12 +59,12 @@ export default function ShopPage() {
       returnUrl: "http://localhost:3000/shop/68d58eec64120e2c406c95ab"
     })
 
-    if (!response?.data?.url) {
+    if (!response?.url) {
       setIsFetching(false)
       alert("Erro ao criar pagamento, tente novamente mais tarde")
     }
 
-    redirect(response.data?.url)
+    redirect(response.url)
   }
 
   return (
@@ -116,13 +128,14 @@ export default function ShopPage() {
             <div className="md:w-[30%]">
 
               <div>
-                <p className="text-sm">Vendido por <a href="#" className="text-blue-500 font-semibold">@thomm.dev</a></p>
+                <p className="text-sm">Vendido por <a target="_blank" href="https://www.instagram.com/thomm.dev/" className="text-blue-500 font-semibold">@thomm.dev</a></p>
               </div>
 
               <h1 className="text-4xl py-2 tracking-tighter mt-2">{mockProduct.name}</h1>
               <div className="flex gap-2 my-2">
                 <b className="border border-slate-300 px-2 rounded-full italic">usado</b>
                 <b className="border border-slate-300 px-2 rounded-full italic">75hz</b>
+                <b className="border border-slate-300 px-2 rounded-full italic">24'</b>
                 <b className="border border-slate-300 px-2 rounded-full italic">monitor</b>
               </div>
 
@@ -137,12 +150,12 @@ export default function ShopPage() {
 
                   <div className="flex gap-1">
                     <p className="italic">Por</p>
-                    <h3 className="text-4xl font-extrabold italic">R$ {mockProduct.price.toFixed(2).replace(".", ",")}</h3>
+                    <h3 className="text-4xl font-extrabold italic">R$ 385,00</h3>
                   </div>
                 </div>
                 <div>
-                  <p>Expira em</p>
-                  <b>30/09/2025</b>
+                  <p>Expira em:</p>
+                  <b>01/10/2025</b>
                 </div>
               </div>
 
@@ -166,17 +179,30 @@ export default function ShopPage() {
                   className="p-2.5 px-6 my-2 shadow-lg cursor-pointer w-full font-bold transition-transform hover:scale-101"
                 />
                 <div className="px-4 p-0.5 border border-slate-300 cursor-pointer rounded-lg transition-transform hover:scale-103">
-                  <Image
-                    alt="whatsapp"
-                    src={"/icons/whatsapp.png"}
-                    width={50}
-                    height={100}
-                  />
+                  <Link href={"https://wa.me/5511949098312"}>
+                    <Image
+                      alt="whatsapp"
+                      src={"/icons/whatsapp.png"}
+                      width={50}
+                      height={100}
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <ModalComposition visible={modalVisible}>
+          <div className="text-center">
+            <h1 className="text-xl mx-2">Opss... Parece que outra pessoa chegou primeiro =(</h1>
+            <p className="text-sm my-2">Peço desculpas, mas parece que este produto foi vendido.</p>
+            <Button
+              value="Quem sabe na próxima?"
+              onClick={() => redirect("/")}
+              className="p-2.5 px-6 my-2 shadow-lg cursor-pointer w-full font-bold transition-transform hover:scale-101"
+            />
+          </div>
+        </ModalComposition>
       </div>
     </>
   )

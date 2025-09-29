@@ -33,12 +33,8 @@ type EditorHandle = {
 
 const Editor = forwardRef<EditorHandle>((_, ref) => {
   const elementId = 'editorjs' // Defina aqui o ID para o elemento onde o Editor.js será renderizado
-  const rendered = useRef(false)
-  const editorRef = useRef<EditorJS | null>(null)
 
   useEffect(() => {
-    if (rendered.current) return
-    rendered.current = true
 
     const instance = new EditorJS({
       holder: elementId,
@@ -87,15 +83,6 @@ const Editor = forwardRef<EditorHandle>((_, ref) => {
         }
       },
     });
-
-    editorRef.current = instance
-
-    return () => {
-      if (editorRef.current && (editorRef.current as any).destroy) {
-        ;(editorRef.current as any).destroy()
-        editorRef.current = null
-      }
-    }
   }, [elementId])
 
   return (

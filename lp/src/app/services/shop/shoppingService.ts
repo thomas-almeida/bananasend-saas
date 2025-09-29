@@ -7,10 +7,6 @@ export async function getProductsById(id: string) {
 }
 
 export async function createPaymentIntent(payload: PaymentIntent) {
-  const response = await axios.post(`${process.env.NEXT_PUBLIC_ABKT_BASE_URL}/v1/billing/create`, payload, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_ABKT_DEV_KEY}`
-    }
-  })
+  const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/abkt/create-payment`, payload)
   return response.data
 }
