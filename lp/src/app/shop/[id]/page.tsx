@@ -15,7 +15,7 @@ const mockProduct = {
   externalId: "68d58eec64120e2c406c95ab",
   id: "68d58eec64120e2c406c95ab",
   name: "Monitor AOC Hero 75hz + Suporte Articulado",
-  description: "Monitor Usado AOC Hero 75hz, estou indo embora do Brasil e estou me desfazendo de alguns itens, um deles o meu monitor, 2 anos de uso e em perfeito estado, acompanha suporte de monitor articulado north bayou novo! Entrego nas estaçoes de trem e metrô de SP.",
+  description: "Monitor Usado AOC Hero 75hz, estou indo embora do Brasil e estou me desfazendo de alguns itens, um deles o meu monitor, 2 anos de uso e em perfeito estado, acompanha suporte de monitor articulado a gás.",
   price: 38500,
   quantity: 1
 };
@@ -152,10 +152,6 @@ export default function ShopPage() {
                     <p className="italic">Por</p>
                     <h3 className="text-4xl font-extrabold italic">R$ 385,00</h3>
                   </div>
-                </div>
-                <div>
-                  <p>Expira em:</p>
-                  <b>01/10/2025</b>
                 </div>
               </div>
 
