@@ -7,7 +7,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="flex h-dvh items-start font-mono">
       <Sidebar />
       <main className="flex-1 border-l border-slate-200 overflow-y-auto h-dvh">
-        <PlanBanner />
+        {
+          /*
+         <PlanBanner />
+          */
+        }
         <div className="flex justify-center min-h-full p-4 mt-6">
           <div className="w-[80%]">
             <Breadcrumb />

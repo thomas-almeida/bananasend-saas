@@ -25,6 +25,7 @@ export default function DashboardClient() {
 
   return (
     <div className="flex flex-col gap-8">
+      <h1 className="text-2xl font-bold">Olá, {userStore.user?.username}</h1>
       <WeekCalendar
         daysAmount={7}
       />
