@@ -7,7 +7,15 @@ const UserSchema = new mongoose.Schema({
   subscriptionId: { type: String, default: "FREE" },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-  mails: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Mails' }],
+  mails: [{
+    subject: String,
+    toAddress: String,
+    fromAddress: String,
+    sentAt: { type: Date, default: Date.now },
+    status: { type: String, default: 'sent' },
+    messageId: String,
+    zohoResponse: mongoose.Schema.Types.Mixed
+  }],
   onboarding: {
     age: { type: Number, default: 0 },
     linkedinUrl: { type: String, default: null },

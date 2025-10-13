@@ -226,6 +226,14 @@ export async function resetPassword(req, res) {
 export async function sendZohoMail(req, res) {
   try {
     const { accountId, fromAddress, toAddress, ccAddress, bccAddress, subject, content, userId } = req.body;
+    
+    // First validate the user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    // Send the email
     const result = await zoho.sendMail({
       accountId,
       fromAddress,
@@ -236,14 +244,39 @@ export async function sendZohoMail(req, res) {
       content
     });
 
-    const user = await User.findById(userId);
-    user.mails.push(result);
+    // Create a simplified mail object with just the essential data
+    const mailData = {
+      subject,
+      toAddress,
+      fromAddress,
+      sentAt: new Date(),
+      status: 'sent',
+      messageId: result.data?.messageId || null,
+      zohoResponse: result // Store the full response for reference
+    };
+
+    // Add to the user's mails array
+    user.mails.push(mailData);
     await user.save();
 
-    res.json({ success: true, result });
+    // Return a clean success response
+    res.json({ 
+      success: true, 
+      message: 'Email sent successfully',
+      data: {
+        messageId: result.data?.messageId,
+        subject,
+        toAddress,
+        sentAt: mailData.sentAt
+      }
+    });
   } catch (err) {
-    console.error('Error sending Zoho mail:', err.message);
-    res.status(500).json({ success: false, error: err.message });
+    console.error('Error sending Zoho mail:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to send email',
+      details: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 }
 
