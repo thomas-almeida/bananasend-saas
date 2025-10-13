@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 
@@ -9,11 +9,6 @@ const inter = Inter({
   display: "swap",
 });
 
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "BananaSend - Quem não é visto, não é lembrado!",
@@ -28,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.variable} ${jetbrains.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased`}>
         <Providers>
           {children}
         </Providers>

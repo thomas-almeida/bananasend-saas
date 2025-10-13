@@ -1,7 +1,0 @@
-/* Estilos para os cabeçalhos do Editor.js */
-:global(.ce-header) {
-  font-weight: bold;
-  margin: 1em 0 0.5em 0;
-  line-height: 1.3;
-  color: #222;
-}

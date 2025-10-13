@@ -28,6 +28,7 @@ export async function updateOnboarding(
     email: response.data.user.email,
     subscription: response.data.user.subscriptionId,
     mails: response.data.user.mails,
+    recipients: response.data.user.recipients,
     onboarding: response.data.user.onboarding,
     progress: response.data.user.progress
   });
@@ -50,5 +51,14 @@ export async function addDailyAction(
     action: string;
   }) {
   const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/add-action`, payload);
+  return response.data;
+}
+
+export async function addRecipient(
+  payload: {
+    userId: string;
+    recipient: string;
+  }) {
+  const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/add-recipient`, payload);
   return response.data;
 }

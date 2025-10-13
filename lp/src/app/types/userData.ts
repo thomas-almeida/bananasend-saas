@@ -3,6 +3,7 @@ export type UserData = {
   email: string;
   username: string;
   mails: string[] | null;
+  recipients: string[] | null;
   subscription: string;
   onboarding: {
     age: number;

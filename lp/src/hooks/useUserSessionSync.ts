@@ -21,6 +21,7 @@ export function useUserSessionSync() {
             email: response.user.email,
             subscription: response.user.subscriptionId,
             mails: response.user.mails,
+            recipients: response.user.recipients,
             onboarding: response.user.onboarding,
             progress: response.user.progress
           });

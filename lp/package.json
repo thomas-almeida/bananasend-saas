@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
     "@editorjs/code": "^2.9.3",
     "@editorjs/editorjs": "^2.31.0",
     "@editorjs/embed": "^2.7.6",
@@ -28,6 +30,7 @@
     "@tiptap/react": "^3.4.1",
     "@tiptap/starter-kit": "^3.4.1",
     "axios": "^1.11.0",
+    "lucide-react": "^0.545.0",
     "next": "15.5.2",
     "next-auth": "^4.24.11",
     "novel": "^1.0.2",
