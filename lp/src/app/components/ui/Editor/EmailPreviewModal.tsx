@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Button from '@/app/components/ui/Button';
+import { sendMail } from '@/app/services/mail/mailService';
 
 interface Recipient {
   id: string;
@@ -27,22 +28,21 @@ const EmailPreviewModal = ({ isOpen, onClose, htmlContent, recipientsList }: Ema
     );
   };
 
-  const handleSend = () => {
+  async function handleSend() {
     if (!subject) {
       alert('Por favor, insira um assunto.');
       return;
     }
-    if (selectedRecipients.length === 0) {
-      alert('Por favor, selecione ao menos um destinatário.');
-      return;
-    }
+
+    await sendMail(subject, htmlContent);
 
     console.log('Enviando email:', {
       subject,
       recipients: selectedRecipients,
       body: htmlContent
     });
-    alert('E-mail enviado com sucesso! (Simulação)');
+    
+    alert('E-mail enviado com sucesso!');
     onClose();
   };
 
