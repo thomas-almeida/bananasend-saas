@@ -225,7 +225,7 @@ export async function resetPassword(req, res) {
 
 export async function sendZohoMail(req, res) {
   try {
-    const { accountId, fromAddress, toAddress, ccAddress, bccAddress, subject, content } = req.body;
+    const { accountId, fromAddress, toAddress, ccAddress, bccAddress, subject, content, userId } = req.body;
     const result = await zoho.sendMail({
       accountId,
       fromAddress,
@@ -235,6 +235,11 @@ export async function sendZohoMail(req, res) {
       subject,
       content
     });
+
+    const user = await User.findById(userId);
+    user.mails.push(result);
+    await user.save();
+
     res.json({ success: true, result });
   } catch (err) {
     console.error('Error sending Zoho mail:', err.message);

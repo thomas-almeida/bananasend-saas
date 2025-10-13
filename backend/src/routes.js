@@ -26,9 +26,6 @@ api.post("/subscriptions", createSubscription);
 api.get("/subscriptions", listSubscriptions);
 api.get("/subscriptions/:id", getSubscriptionById);
 
-// Mail
-api.post("/mail/send", sendEmail);
-
 //Zoho
 api.post("/zoho/create-user", createZohoUser);
 api.put("/zoho/enable-protocols", enableProtocols);
