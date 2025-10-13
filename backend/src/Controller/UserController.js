@@ -77,15 +77,30 @@ export async function addDailyAction(req, res) {
   await dailyAction.save();
 
   user.progress.actions.push(dailyAction._id);
-  
+
   if (user.progress.currentPoints + 25 >= 100) {
     user.progress.level += 1;
     user.progress.currentPoints = 0;
   } else {
     user.progress.currentPoints += 25;
   }
-  
+
   user.updatedAt = Date.now();
+
+  await user.save();
+
+  res.status(200).json({ user })
+}
+
+export async function addRecipient(req, res) {
+  const { userId, recipient } = req.body;
+  const user = await User.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  user.recipients.push(recipient);
 
   await user.save();
 

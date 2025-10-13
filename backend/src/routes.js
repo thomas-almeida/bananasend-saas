@@ -18,6 +18,7 @@ api.get("/users/:id", getUserById);
 api.get("/wishlist-total", getTotalUsers);
 api.put("/users/onboarding", updateOnboarding);
 api.put("/users/add-action", addDailyAction);
+api.put("/users/add-recipient", addRecipient);
 
 // Subscriptions
 api.post("/subscriptions", createSubscription);

@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema({
     currentPoints: { type: Number, default: 0 },
     actions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'DailyActions' }],
   },
+  recipients: {
+    type: [String],
+    default: []
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
