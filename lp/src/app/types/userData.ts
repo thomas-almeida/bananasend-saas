@@ -1,8 +1,12 @@
+
+import { MailObject } from "./mailObject";
+
+
 export type UserData = {
   id: string;
   email: string;
   username: string;
-  mails: string[] | null;
+  mails: MailObject[] | null;
   recipients: string[] | null;
   subscription: string;
   onboarding: {
