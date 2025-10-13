@@ -13,6 +13,7 @@ interface EmailPreviewModalProps {
 
 const EmailPreviewModal = ({ isOpen, onClose, htmlContent }: EmailPreviewModalProps) => {
   const [subject, setSubject] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   const userStore = useUserStore();
 
@@ -24,7 +25,9 @@ const EmailPreviewModal = ({ isOpen, onClose, htmlContent }: EmailPreviewModalPr
       return;
     }
 
+    setIsSending(true);
     await sendMail(subject, htmlContent, userStore.user?.id!);
+    setIsSending(false);
 
     alert('E-mail enviado com sucesso!');
     onClose();
@@ -55,7 +58,7 @@ const EmailPreviewModal = ({ isOpen, onClose, htmlContent }: EmailPreviewModalPr
 
             <div className="w-full p-4 border border-gray-300 rounded-md min-h-[300px] overflow-auto">
               <div className="max-w-[600px] mx-auto">
-                <div 
+                <div
                   className="border border-gray-100 p-4"
                   dangerouslySetInnerHTML={{ __html: htmlContent }}
                 />
@@ -76,7 +79,7 @@ const EmailPreviewModal = ({ isOpen, onClose, htmlContent }: EmailPreviewModalPr
 
           />
           <Button
-            value="Enviar Email"
+            value={isSending ? 'Enviando...' : 'Enviar Email'}
             onClick={handleSend}
             className="w-48"
           />
