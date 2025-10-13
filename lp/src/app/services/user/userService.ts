@@ -62,3 +62,12 @@ export async function addRecipient(
   const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/add-recipient`, payload);
   return response.data;
 }
+
+export async function removeRecipient(
+  payload: {
+    userId: string;
+    recipient: string;
+  }) {
+  const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/remove-recipient`, payload);
+  return response.data;
+}

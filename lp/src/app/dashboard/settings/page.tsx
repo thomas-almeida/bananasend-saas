@@ -5,7 +5,7 @@ import Button from "@/app/components/ui/Button";
 import { useUserSessionSync } from "@/hooks/useUserSessionSync"
 import { useUserStore } from "@/store/userStore"
 import { useEffect, useState } from "react";
-import { addRecipient } from "@/app/services/user/userService";
+import { addRecipient, removeRecipient } from "@/app/services/user/userService";
 
 export default function Settings() {
   useUserSessionSync();
@@ -27,6 +27,15 @@ export default function Settings() {
     await addRecipient({
       userId: userStore.user?.id ?? '',
       recipient: currentEmail.trim()
+    })
+  }
+
+  async function removeEmail(email: string) {
+    setEmails(emails.filter((e) => e !== email));
+
+    await removeRecipient({
+      userId: userStore.user?.id ?? '',
+      recipient: email
     })
   }
 
@@ -88,8 +97,8 @@ export default function Settings() {
                 <li key={index} className="py-1 flex justify-between items-center">
                   <span>{email}</span>
                   <button
-                    onClick={() => setEmails(emails.filter((_, i) => i !== index))}
-                    className="text-red-500 hover:text-red-700"
+                    onClick={() => removeEmail(email)}
+                    className="text-red-500 hover:text-red-700 cursor-pointer"
                     type="button"
                   >
                     Remover
