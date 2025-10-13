@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, getUserById, getTotalUsers, updateOnboarding, addDailyAction } from "./Controller/UserController.js";
+import { createUser, getUserById, getTotalUsers, updateOnboarding, addDailyAction, addRecipient } from "./Controller/UserController.js";
 import { createSubscription, listSubscriptions, getSubscriptionById } from "./Controller/SubscriptionsController.js";
 import { sendEmail } from "./Controller/MailController.js";
 import { createZohoUser, enableProtocols, getUserUsage, testZohoConnection, listUsers, getAccountDetails, resetPassword, sendZohoMail, addEmailToUser } from "./Controller/zohoController.js";
