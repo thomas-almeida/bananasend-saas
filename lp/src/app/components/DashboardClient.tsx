@@ -15,7 +15,7 @@ import { useState } from "react"
 export default function DashboardClient() {
   useUserSessionSync();
   const userStore = useUserStore(state => state)
-  const [showNotification, setShowNotification] = useState(true);
+  const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("Notificação de teste");
   const [notificationType, setNotificationType] = useState("success" as "success" | "error" | "warning" | "info");
 
@@ -28,7 +28,7 @@ export default function DashboardClient() {
       <WeekCalendar
         daysAmount={7}
       />
-      <Kpis />
+      <Kpis userData={userStore.user ?? undefined} />
       <DailyApointments
         userData={userStore.user ?? undefined}
         setShowNotification={setShowNotification}

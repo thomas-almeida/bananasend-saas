@@ -3,30 +3,20 @@
 import { useState } from 'react';
 import Button from '@/app/components/ui/Button';
 import { sendMail } from '@/app/services/mail/mailService';
-
-interface Recipient {
-  id: string;
-  email: string;
-}
+import { useUserStore } from "@/store/userStore";
 
 interface EmailPreviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   htmlContent: string;
-  recipientsList: Recipient[];
 }
 
-const EmailPreviewModal = ({ isOpen, onClose, htmlContent, recipientsList }: EmailPreviewModalProps) => {
+const EmailPreviewModal = ({ isOpen, onClose, htmlContent }: EmailPreviewModalProps) => {
   const [subject, setSubject] = useState('');
-  const [selectedRecipients, setSelectedRecipients] = useState<string[]>([]);
+
+  const userStore = useUserStore();
 
   if (!isOpen) return null;
-
-  const handleSelectRecipient = (email: string) => {
-    setSelectedRecipients(prev =>
-      prev.includes(email) ? prev.filter(r => r !== email) : [...prev, email]
-    );
-  };
 
   async function handleSend() {
     if (!subject) {
@@ -34,14 +24,8 @@ const EmailPreviewModal = ({ isOpen, onClose, htmlContent, recipientsList }: Ema
       return;
     }
 
-    await sendMail(subject, htmlContent);
+    await sendMail(subject, htmlContent, userStore.user?.id!);
 
-    console.log('Enviando email:', {
-      subject,
-      recipients: selectedRecipients,
-      body: htmlContent
-    });
-    
     alert('E-mail enviado com sucesso!');
     onClose();
   };
@@ -69,11 +53,13 @@ const EmailPreviewModal = ({ isOpen, onClose, htmlContent, recipientsList }: Ema
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Corpo do E-mail</label>
 
-            <div className="w-full p-4 px-32 border border-gray-300 rounded-md min-h-[300px]">
-              <div
-                className='border border-gray-100 p-4'
-                dangerouslySetInnerHTML={{ __html: htmlContent }}
-              />
+            <div className="w-full p-4 border border-gray-300 rounded-md min-h-[300px] overflow-auto">
+              <div className="max-w-[600px] mx-auto">
+                <div 
+                  className="border border-gray-100 p-4"
+                  dangerouslySetInnerHTML={{ __html: htmlContent }}
+                />
+              </div>
             </div>
           </div>
         </div>

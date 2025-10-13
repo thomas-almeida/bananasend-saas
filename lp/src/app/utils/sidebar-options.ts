@@ -12,14 +12,6 @@ export const sidebarOptions = [
     href: "/dashboard/sent",
   },
   {
-    name: "Templates",
-    href: "/dashboard/sent",
-  },
-  {
-    name: "Planos",
-    href: "/dashboard/subscription",
-  },
-  {
     name: "Configurações",
     href: "/dashboard/settings",
   },

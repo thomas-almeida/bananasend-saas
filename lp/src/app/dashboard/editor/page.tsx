@@ -7,8 +7,8 @@ import Editor, { ElementType } from '@/app/components/ui/Editor/EditorTree';
 import EmailPreviewModal from '@/app/components/ui/Editor/EmailPreviewModal';
 
 type EditorHandle = {
-  addElement: (type: ElementType) => void;
-  generateHtml: () => string;
+    addElement: (type: ElementType) => void;
+    generateHtml: () => string;
 };
 
 const HomePage = () => {
@@ -16,14 +16,6 @@ const HomePage = () => {
     const editorRef = useRef<EditorHandle>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [htmlContent, setHtmlContent] = useState('');
-
-    const mockRecipients = [
-        { id: '1', email: 'joao@example.com' },
-        { id: '2', email: 'maria@example.com' },
-        { id: '3', email: 'pedro@example.com' },
-        { id: '4', email: 'ana@example.com' },
-        { id: '5', email: 'carlos@example.com' },
-    ];
 
     const handleAddElement = (type: ElementType) => {
         if (editorRef.current) {
@@ -35,7 +27,13 @@ const HomePage = () => {
         if (editorRef.current) {
             const html = editorRef.current.generateHtml();
             console.log(html);
-            setHtmlContent(html);
+            // Wrap content in a padded container
+            const wrappedHtml = `
+                <div style="max-width: 600px; margin: 0 auto; padding: 0 20px;">
+                    ${html}
+                </div>
+            `;
+            setHtmlContent(wrappedHtml);
             setIsModalOpen(true);
         }
     };
@@ -101,11 +99,10 @@ const HomePage = () => {
             <div className="border border-slate-200 rounded-lg p-6 bg-white shadow-sm">
                 <Editor ref={editorRef} />
             </div>
-            <EmailPreviewModal 
+            <EmailPreviewModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 htmlContent={htmlContent}
-                recipientsList={mockRecipients}
             />
         </div>
     );

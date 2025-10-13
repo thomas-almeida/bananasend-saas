@@ -52,27 +52,27 @@ export default function Settings() {
 
       <div className="my-2 border border-slate-200 p-2 rounded">
         <h2 className="text-lg font-bold">Informações do usuário</h2>
-        <p>{userStore.user?.username}</p>
-        <p>{userStore.user?.email}</p>
+        <p><b>Nome:</b> {userStore.user?.username}</p>
+        <p><b>Email:</b> {userStore.user?.email}</p>
       </div>
 
       <div className="my-2 border border-slate-200 p-2 rounded">
         <h2 className="text-lg font-bold">Informações do onboarding</h2>
-        <p>{userStore.user?.onboarding?.age}</p>
-        <p>{userStore.user?.onboarding?.occupation}</p>
-        <p>{userStore.user?.onboarding?.linkedinUrl}</p>
-        <p>{userStore.user?.onboarding?.workspace}</p>
-        <p>{userStore.user?.onboarding?.mail}</p>
+        <p><b>Idade:</b> {userStore.user?.onboarding?.age}</p>
+        <p><b>Profissão:</b> {userStore.user?.onboarding?.occupation}</p>
+        <p><b>Linkedin:</b> {userStore.user?.onboarding?.linkedinUrl}</p>
+        <p><b>Workspace:</b> {userStore.user?.onboarding?.workspace}</p>
+        <p><b>Seu Email BananaSend:</b> {userStore.user?.onboarding?.mail}</p>
       </div>
 
       <div className="my-2 border border-slate-200 p-2 rounded">
         <h2 className="text-lg font-bold">Informações do plano</h2>
-        <p>{userStore.user?.subscription}</p>
+        <p><b>Plano:</b> {userStore.user?.subscription}</p>
       </div>
 
       <div className="my-2 border border-slate-200 p-2 rounded">
         <h2 className="text-lg font-bold">Destinatários</h2>
-        <p>Adicione destinatários para receber suas newsletters e notificações</p>
+        <p>Adicione destinatários para receber suas newsletters e notificações. por enquanto, automaticamente você enviará para todos os destinatários adicionados.</p>
         <div className="flex gap-2">
           <Input
             placeholder="Email do destinatário"
