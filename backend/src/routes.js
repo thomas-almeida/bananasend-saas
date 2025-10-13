@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, getUserById, getTotalUsers, updateOnboarding, addDailyAction, addRecipient } from "./Controller/UserController.js";
+import { createUser, getUserById, getTotalUsers, updateOnboarding, addDailyAction, addRecipient, removeRecipient } from "./Controller/UserController.js";
 import { createSubscription, listSubscriptions, getSubscriptionById } from "./Controller/SubscriptionsController.js";
 import { sendEmail } from "./Controller/MailController.js";
 import { createZohoUser, enableProtocols, getUserUsage, testZohoConnection, listUsers, getAccountDetails, resetPassword, sendZohoMail, addEmailToUser } from "./Controller/zohoController.js";
@@ -19,6 +19,7 @@ api.get("/wishlist-total", getTotalUsers);
 api.put("/users/onboarding", updateOnboarding);
 api.put("/users/add-action", addDailyAction);
 api.put("/users/add-recipient", addRecipient);
+api.put("/users/remove-recipient", removeRecipient);
 
 // Subscriptions
 api.post("/subscriptions", createSubscription);
