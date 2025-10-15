@@ -30,7 +30,21 @@ interface EditorTreeRef {
 }
 
 const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
-  const [elements, setElements] = useState<EditorElement[]>([]);
+  const [elements, setElements] = useState<EditorElement[]>(() => {
+    // Default elements when the editor is first rendered
+    return [
+      {
+        id: '1',
+        type: 'h1',
+        content: 'Novo Conteúdo!'
+      },
+      {
+        id: '2',
+        type: 'p',
+        content: 'Comece aqui!'
+      }
+    ];
+  });
   const [newElementId, setNewElementId] = useState<string | null>(null);
 
   const sensors = useSensors(
@@ -85,7 +99,7 @@ const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
   };
 
   const generateHtml = () => {
-    return elements.map(el => {
+    const emailContent = elements.map(el => {
       const style = getElementInlineStyle(el.type);
       switch (el.type) {
         case 'h1': return `<h1 style="${style}">${el.content}</h1>`;
@@ -98,6 +112,19 @@ const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
         default: return '';
       }
     }).join('');
+
+    // Add Bananasend footer to the email
+    const footer = `
+      <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #E5E7EB; text-align: center; color: #6B7280; font-size: 0.875rem;">
+        <p style="margin: 0.5rem 0;">Enviado com 🍌 usando</p>
+        <div style="display: flex; align-items: center; justify-content: center; margin-top: 0.5rem;">
+          <img src="https://lh3.googleusercontent.com/d/1_8anpY-Y9h8iNs92jMQ7y_DpfndD2pep=w640?authuser=0" alt="Bananasend" style="height: 24px; width: auto;" />
+        </div>
+        <p style="margin: 0.5rem 0 0; font-size: 0.75rem;">Crie sua própria newsletter em <a href="https://bananasend.top" style="color: #3B82F6; text-decoration: none;">bananasend.top</a></p>
+      </div>
+    `;
+
+    return emailContent + footer;
   };
 
   useImperativeHandle(ref, () => ({

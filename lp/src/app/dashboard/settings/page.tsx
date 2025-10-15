@@ -51,27 +51,31 @@ export default function Settings() {
       <h1 className="text-xl font-bold my-2">Configurações</h1>
 
       <div className="my-2 border border-slate-200 p-2 rounded">
-        <h2 className="text-lg font-bold">Informações do usuário</h2>
-        <p><b>Nome:</b> {userStore.user?.username}</p>
-        <p><b>Email:</b> {userStore.user?.email}</p>
+        <h2 className="text-lg font-bold mb-2">Informações do usuário</h2>
+        <div className="grid grid-cols-2 gap-2">
+          <p className="border p-1 px-2 py-2 border-slate-200 rounded-sm"><b className="font-semibold text-slate-500">Nome:</b> {userStore.user?.username}</p>
+          <p className="border p-1 px-2 py-2 border-slate-200 rounded-sm"><b className="font-semibold text-slate-500">Email:</b> {userStore.user?.email}</p>
+        </div>
       </div>
 
       <div className="my-2 border border-slate-200 p-2 rounded">
-        <h2 className="text-lg font-bold">Informações do onboarding</h2>
-        <p><b>Idade:</b> {userStore.user?.onboarding?.age}</p>
-        <p><b>Profissão:</b> {userStore.user?.onboarding?.occupation}</p>
-        <p><b>Linkedin:</b> {userStore.user?.onboarding?.linkedinUrl}</p>
-        <p><b>Workspace:</b> {userStore.user?.onboarding?.workspace}</p>
-        <p><b>Seu Email BananaSend:</b> {userStore.user?.onboarding?.mail}</p>
+        <h2 className="text-lg font-bold mb-2">Dados Pessoais</h2>
+        <div className="grid grid-cols-2 gap-2">
+          <p className="border p-1 px-2 py-2 border-slate-200 rounded-sm"><b className="font-semibold text-slate-500">Idade:</b> {userStore.user?.onboarding?.age}</p>
+          <p className="border p-1 px-2 py-2 border-slate-200 rounded-sm"><b className="font-semibold text-slate-500">Profissão:</b> {userStore.user?.onboarding?.occupation}</p>
+          <p className="border p-1 px-2 py-2 border-slate-200 rounded-sm"><b className="font-semibold text-slate-500">Linkedin:</b> {userStore.user?.onboarding?.linkedinUrl}</p>
+          <p className="border p-1 px-2 py-2 border-slate-200 rounded-sm"><b className="font-semibold text-slate-500">Workspace:</b> {userStore.user?.onboarding?.workspace}</p>
+          <p className="border p-1 px-2 py-2 border-slate-200 rounded-sm"><b className="font-semibold text-slate-500">Seu Email BananaSend:</b> {userStore.user?.onboarding?.mail}</p>
+        </div>
       </div>
 
       <div className="my-2 border border-slate-200 p-2 rounded">
-        <h2 className="text-lg font-bold">Informações do plano</h2>
-        <p><b>Plano:</b> {userStore.user?.subscription}</p>
+        <h2 className="text-lg font-bold mb-2">Informações do plano</h2>
+        <p className="border p-1 px-2 py-2 border-slate-200 rounded-sm"><b className="font-semibold text-slate-500">Plano:</b> {userStore.user?.subscription}</p>
       </div>
 
       <div className="my-2 border border-slate-200 p-2 rounded">
-        <h2 className="text-lg font-bold">Destinatários</h2>
+        <h2 className="text-lg font-bold mb-2">Destinatários</h2>
         <p>Adicione destinatários para receber suas newsletters e notificações. por enquanto, automaticamente você enviará para todos os destinatários adicionados.</p>
         <div className="flex gap-2">
           <Input
