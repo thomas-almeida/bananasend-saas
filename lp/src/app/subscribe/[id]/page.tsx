@@ -74,18 +74,18 @@ export default function SubscribePage() {
                         />
                     </Link>
                 </div>
-                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                <h2 className="mt-6 text-center text-3xl px-4 md:px-0 md:text-3xl font-extrabold text-gray-900">
                     {isSubscribed ? 'Inscrição confirmada!' : `Inscreva-se na Newsletter de ${user?.username}`}
                 </h2>
                 {!isSubscribed && (
-                    <p className="mt-2 text-center text-sm text-gray-600">
+                    <p className="mt-2 text-center text-md md:text-sm text-gray-600 px-4">
                         Junte-se aos outros leitores ativos e receba atualizações sobre o mundo de {user?.onboarding.occupation}:
                     </p>
                 )}
             </div>
 
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                <div className="md:bg-white py-8 px-4 md:shadow sm:rounded-lg sm:px-10">
                     {isSubscribed ? (
                         <div className="text-center">
                             <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
@@ -120,7 +120,7 @@ export default function SubscribePage() {
                                         required
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        className="bg-white appearance-none block w-full px-3 py-2 text-lg md:text-sm border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         placeholder="Seu Email Principal"
                                     />
                                 </div>
@@ -130,7 +130,7 @@ export default function SubscribePage() {
                             <div>
                                 <Button
                                     value={isLoading ? 'Carregando...' : 'Inscrever-se (Grátis)'}
-                                    className='w-full py-2 px-4 text-sm shadow-lg'
+                                    className='w-full py-2 px-4 text-lg md:text-sm shadow-lg'
                                     onClick={handleSubmit}
                                 />
                             </div>
