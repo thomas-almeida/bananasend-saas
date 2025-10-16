@@ -6,7 +6,7 @@ import Button from '@/app/components/ui/Button';
 import { UserData } from '@/app/types/userData';
 import { redirect } from 'next/navigation';
 
-import { getUserById, addRecipient } from '@/app/services/user/userService';
+import { getUserById, addRecipient, addNotification } from '@/app/services/user/userService';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -35,6 +35,13 @@ export default function SubscribePage() {
             await addRecipient({
                 userId: id as string,
                 recipient: email
+            });
+
+            await addNotification({
+                userId: id as string,
+                title: 'Novo Leitor!',
+                message: `Um novo leitor se inscreveu na sua Newsletter: ${email}`,
+                type: 'recipient',
             });
 
             setIsLoading(false);

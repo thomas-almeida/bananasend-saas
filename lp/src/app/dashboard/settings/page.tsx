@@ -96,10 +96,15 @@ export default function Settings() {
         {emails.length > 0 && (
           <div className="mt-4">
             <h3 className="font-medium mb-2">Emails adicionados:</h3>
-            <ul className="bg-gray-50 p-3 rounded">
+            <ul className="p-3 rounded border border-slate-200">
               {emails.map((email, index) => (
                 <li key={index} className="py-1 flex justify-between items-center">
-                  <span>{email}</span>
+                  <div className="flex justify-start items-center gap-1">
+                    <b className="text-slate-500 text-md bg-green-500 text-white capitalize p-0.5 w-7 rounded-full flex justify-center items-center">
+                      {email.slice(0, 1)}
+                    </b>
+                    <span className="text-slate-700 p-0.5 lowercase">{email}</span>
+                  </div>
                   <button
                     onClick={() => removeEmail(email)}
                     className="text-red-500 hover:text-red-700 cursor-pointer"

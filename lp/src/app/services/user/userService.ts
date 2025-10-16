@@ -71,3 +71,29 @@ export async function removeRecipient(
   const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/remove-recipient`, payload);
   return response.data;
 }
+
+
+export async function addNotification(
+  payload: {
+    userId: string;
+    title: string;
+    message: string;
+    type: string;
+  }) {
+  const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/add-notification`, payload);
+  return response.data;
+}
+
+export async function getNotifications(userId: string) {
+  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/notifications/${userId}`);
+  return response.data;
+}
+
+export async function readNotifications(
+  payload: {
+    userId: string;
+    notificationId: string;
+  }) {
+  const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/read-notification`, payload);
+  return response.data;
+}
