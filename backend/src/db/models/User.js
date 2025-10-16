@@ -7,6 +7,10 @@ const UserSchema = new mongoose.Schema({
   subscriptionId: { type: String, default: "FREE" },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+  notifications: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Notifications'
+  }],
   mails: [{
     subject: String,
     toAddress: String,
