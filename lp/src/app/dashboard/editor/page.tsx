@@ -1,10 +1,13 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import Button from '@/app/components/ui/Button';
 import { useUserStore } from '@/store/userStore';
 import Editor, { ElementType } from '@/app/components/ui/Editor/EditorTree';
 import EmailPreviewModal from '@/app/components/ui/Editor/EmailPreviewModal';
+import { Heading1, Heading2, Heading3, Link2, Minus, Type, Image, Bold, Italic, Strikethrough, List } from 'lucide-react';
+import ElementButtons from '@/app/components/ui/Editor/ElementButtons';
 
 type EditorHandle = {
     addElement: (type: ElementType) => void;
@@ -12,6 +15,7 @@ type EditorHandle = {
 };
 
 const HomePage = () => {
+    const { data: session } = useSession();
     const user = useUserStore((state) => state.user);
     const editorRef = useRef<EditorHandle>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,57 +51,37 @@ const HomePage = () => {
     }, []);
 
     return (
-        <div className="p-6 max-w-7xl mx-auto" dir="ltr" style={{ direction: 'ltr' }}>
-            <div className='flex justify-between items-center mb-6'>
-                <div className='flex gap-2 flex-wrap'>
-                    <Button
-                        value='H1'
-                        className='px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md'
-                        onClick={() => handleAddElement('h1')}
-                    />
-                    <Button
-                        value='H2'
-                        className='px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md'
-                        onClick={() => handleAddElement('h2')}
-                    />
-                    <Button
-                        value='H3'
-                        className='px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md'
-                        onClick={() => handleAddElement('h3')}
-                    />
-                    <Button
-                        value='Parágrafo'
-                        className='px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md'
-                        onClick={() => handleAddElement('p')}
-                    />
-                    <Button
-                        value='Linha'
-                        className='px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md'
-                        onClick={() => handleAddElement('hr')}
-                    />
-                    <Button
-                        value='Link'
-                        className='px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md'
-                        onClick={() => handleAddElement('link')}
-                    />
-                    <Button
-                        value='Imagem'
-                        className='px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-md'
-                        onClick={() => handleAddElement('image')}
-                    />
+        <div className="p-6 max-w-7xl mx-auto relative" dir="ltr" style={{ direction: 'ltr' }}>
+
+            <div className='flex justify-between items-center bg-white p-2 rounded absolute w-full top-[-10px] left-0 z-10'>
+                <div className='flex justify-start gap-2'>
+                    <ElementButtons icon={<Heading1 color='gray' size={18} />} text="Título 1" onClick={() => handleAddElement('h1')} />
+                    <ElementButtons icon={<Heading2 color='gray' size={18} />} text="Título 2" onClick={() => handleAddElement('h2')} />
+                    <ElementButtons icon={<Heading3 color='gray' size={18} />} text="Título 3" onClick={() => handleAddElement('h3')} />
+                    <ElementButtons icon={<Type color='gray' size={18} />} text="Texto" onClick={() => handleAddElement('p')} />
+                    <ElementButtons icon={<Minus color='gray' size={18} />} text="Linha" onClick={() => handleAddElement('hr')} />
+                    <ElementButtons icon={<Link2 color='gray' size={18} />} text="Link" onClick={() => handleAddElement('link')} />
+                    <ElementButtons icon={<Image color='gray' size={18} />} text="Imagem" onClick={() => handleAddElement('image')} />
                 </div>
-                {user?.onboarding.mail && (
-                    <Button
-                        value="Enviar"
-                        onClick={handleOpenPreview}
-                        textColor='#FFFFFF'
-                        hoverBgColor='#1E40AF'
-                        className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-md"
-                    />
-                )}
+                <div className='flex justify-between items-center'>
+                    {user?.onboarding.mail && (
+                        <Button
+                            value="Preview"
+                            onClick={handleOpenPreview}
+                            textColor='#FFFFFF'
+                            hoverBgColor='#1E40AF'
+                            className="px-6 bg-blue-600 hover:bg-blue-700 rounded-md "
+                        />
+                    )}
+                </div>
             </div>
-            <div className="border border-slate-200 rounded-lg p-6 bg-white shadow-sm">
-                <Editor ref={editorRef} />
+
+            <div className="rounded-lg p-6 mt-6 bg-white" >
+                <Editor
+                    ref={editorRef}
+                    userName={user?.username || user?.email?.split('@')[0]}
+                    userImage={session?.user?.image || undefined}
+                />
             </div>
             <EmailPreviewModal
                 isOpen={isModalOpen}

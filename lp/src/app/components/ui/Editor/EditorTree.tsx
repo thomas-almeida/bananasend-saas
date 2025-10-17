@@ -24,12 +24,17 @@ export interface EditorElement {
   content: string;
 }
 
+interface EditorTreeProps {
+  userName?: string;
+  userImage?: string;
+}
+
 interface EditorTreeRef {
   addElement: (type: ElementType) => void;
   generateHtml: () => string;
 }
 
-const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
+const EditorTree = forwardRef<EditorTreeRef, EditorTreeProps>(({ userName, userImage }, ref) => {
   const [elements, setElements] = useState<EditorElement[]>(() => {
     // Default elements when the editor is first rendered
     return [
@@ -66,10 +71,10 @@ const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
       if (url) {
         newElement.content = url;
         setElements(prev => [...prev, newElement]);
-      } 
+      }
     } else {
-        newElement.content = type === 'hr' ? 'hr' : '';
-        setElements(prev => [...prev, newElement]);
+      newElement.content = type === 'hr' ? 'hr' : '';
+      setElements(prev => [...prev, newElement]);
     }
     return newElement;
   };
@@ -99,6 +104,18 @@ const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
   };
 
   const generateHtml = () => {
+    // Generate user header if user info is available
+    const userHeader = userName ? `
+      <div style="display: flex; align-items: center; margin-top: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #E5E7EB;">
+        ${userImage ? `
+          <div style="width: 30px; height: 30px; border-radius: 100%; overflow: hidden; margin-right: 5px; flex-shrink: 0;">
+            <img src="${userImage}" alt="${userName}'s profile" style="width: 100%; height: 100%; object-fit: cover;" />
+          </div>
+        ` : ''}
+        <p style="margin: 0; font-weight: 500; color: #111827;">${userName}</p>
+      </div>
+    ` : '';
+
     const emailContent = elements.map(el => {
       const style = getElementInlineStyle(el.type);
       switch (el.type) {
@@ -117,14 +134,14 @@ const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
     const footer = `
       <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #E5E7EB; text-align: center; color: #6B7280; font-size: 0.875rem;">
         <p style="margin: 0.5rem 0;">Enviado com 🍌 usando</p>
-        <div style="display: flex; align-items: center; justify-content: center; margin-top: 0.5rem;">
+        <div style="display: flex; justify-content: center; align-items: center; text-align: center; margin-top: 0.5rem;">
           <img src="https://lh3.googleusercontent.com/d/1_8anpY-Y9h8iNs92jMQ7y_DpfndD2pep=w640?authuser=0" alt="Bananasend" style="height: 24px; width: auto;" />
         </div>
-        <p style="margin: 0.5rem 0 0; font-size: 0.75rem;">Crie sua própria newsletter em <a href="https://bananasend.top" style="color: #3B82F6; text-decoration: none;">bananasend.top</a></p>
+        <p style="margin: 0.5rem 0 0; font-size: 0.75rem;">Amadarureça seu trampo com <a href="https://bananasend.top" style="color: #3B82F6; text-decoration: none;">bananasend.top</a></p>
       </div>
     `;
 
-    return emailContent + footer;
+    return userHeader + emailContent + footer;
   };
 
   useImperativeHandle(ref, () => ({
@@ -132,8 +149,23 @@ const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
     generateHtml
   }));
 
-  const deleteElement = (id: string) => {
-    setElements(prev => prev.filter(el => el.id !== id));
+  const deleteElement = (id: string, focusPrevious: boolean = true) => {
+    setElements(prev => {
+      const index = prev.findIndex(el => el.id === id);
+      if (index > 0 && focusPrevious) {
+        // Focus the previous element after the state updates
+        setTimeout(() => {
+          const prevElement = document.querySelector(`[data-editor-element="${prev[index - 1].id}"]`) as HTMLTextAreaElement;
+          if (prevElement) {
+            prevElement.focus();
+            // Move cursor to the end of the previous element
+            const length = prevElement.value.length;
+            prevElement.setSelectionRange(length, length);
+          }
+        }, 0);
+      }
+      return prev.filter(el => el.id !== id);
+    });
   };
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>, id: string) => {
@@ -162,32 +194,32 @@ const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
     const modifierKey = e.ctrlKey || e.metaKey;
 
     if (modifierKey && e.altKey) {
-        switch (e.key) {
-            case '1':
-                e.preventDefault();
-                addElement('h1');
-                break;
-            case '2':
-                e.preventDefault();
-                addElement('h2');
-                break;
-            case '3':
-                e.preventDefault();
-                addElement('h3');
-                break;
-            default:
-                break;
-        }
+      switch (e.key) {
+        case '1':
+          e.preventDefault();
+          addElement('h1');
+          break;
+        case '2':
+          e.preventDefault();
+          addElement('h2');
+          break;
+        case '3':
+          e.preventDefault();
+          addElement('h3');
+          break;
+        default:
+          break;
+      }
     }
 
     if (modifierKey && e.key === 'k') {
-        e.preventDefault();
-        addElement('link');
+      e.preventDefault();
+      addElement('link');
     }
 
     if (modifierKey && e.shiftKey && e.key === '_') { // Corresponds to 'Ctrl+Shift+-' on many layouts
-        e.preventDefault();
-        addElement('hr');
+      e.preventDefault();
+      addElement('hr');
     }
 
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -198,7 +230,9 @@ const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
 
     if (e.key === 'Backspace' && content === '') {
       e.preventDefault();
-      deleteElement(id);
+      // Only focus previous if this is not the first element
+      const currentIndex = elements.findIndex(el => el.id === id);
+      deleteElement(id, currentIndex > 0);
     }
   };
 
@@ -225,7 +259,7 @@ const EditorTree = forwardRef<EditorTreeRef>((props, ref) => {
                 isNew={element.id === newElementId}
                 onFocused={() => setNewElementId(null)}
                 handleContentChange={handleContentChange}
-                handleKeyDown={handleKeyDown}
+                onKeyDown={handleKeyDown}
                 deleteElement={deleteElement}
                 getElementStyle={getElementStyle}
               />
