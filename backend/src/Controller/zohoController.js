@@ -233,18 +233,29 @@ export async function sendZohoMail(req, res) {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
 
+    let finalToAddress = toAddress;
+    let finalBccAddress = bccAddress || [];
+
+    // Se toAddress for um array com múltiplos e-mails, mova para Bcc
+    // para que os destinatários não vejam uns aos outros.
+    if (Array.isArray(toAddress) && toAddress.length > 1) {
+      finalBccAddress = [...finalBccAddress, ...toAddress];
+      // Coloca o remetente no campo "To:" para evitar que pareça spam.
+      finalToAddress = fromAddress;
+    }
+
     // Send the email
     const result = await zoho.sendMail({
       accountId,
       fromAddress,
-      toAddress,
+      toAddress: finalToAddress,
       ccAddress,
-      bccAddress,
+      bccAddress: finalBccAddress,
       subject,
       content
     });
 
-    // Create a simplified mail object with just the essential data
+    // Cria um objeto simplificado do e-mail com os dados essenciais
     const mailData = {
       subject,
       toAddress,
@@ -255,11 +266,11 @@ export async function sendZohoMail(req, res) {
       zohoResponse: result // Store the full response for reference
     };
 
-    // Add to the user's mails array
+    // Adiciona ao array de e-mails do usuário
     user.mails.push(mailData);
     await user.save();
 
-    // Return a clean success response
+    // Retorna uma resposta de sucesso
     res.json({ 
       success: true, 
       message: 'Email sent successfully',
