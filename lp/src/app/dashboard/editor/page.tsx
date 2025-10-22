@@ -6,12 +6,13 @@ import Button from '@/app/components/ui/Button';
 import { useUserStore } from '@/store/userStore';
 import Editor, { ElementType } from '@/app/components/ui/Editor/EditorTree';
 import EmailPreviewModal from '@/app/components/ui/Editor/EmailPreviewModal';
-import { Heading1, Heading2, Heading3, Link2, Minus, Type, Image, Bold, Italic, Strikethrough, List } from 'lucide-react';
+import { Heading1, Heading2, Heading3, Link2, Minus, Type, Image, Bold, Italic, Strikethrough, List, Trash2 } from 'lucide-react';
 import ElementButtons from '@/app/components/ui/Editor/ElementButtons';
 
-type EditorHandle = {
+interface EditorHandle {
     addElement: (type: ElementType) => void;
     generateHtml: () => string;
+    clearAll: () => void;
 };
 
 const HomePage = () => {
@@ -42,6 +43,17 @@ const HomePage = () => {
         }
     };
 
+    const handleClearAll = () => {
+        if (window.confirm('Tem certeza que deseja limpar todo o conteúdo do editor?')) {
+            editorRef.current?.clearAll();
+        }
+    };
+
+    const handleSendSuccess = () => {
+        // Clear the editor after successful send
+        editorRef.current?.clearAll();
+    };
+
     // Force LTR direction for the entire editor page
     useEffect(() => {
         document.documentElement.dir = 'ltr';
@@ -62,15 +74,22 @@ const HomePage = () => {
                     <ElementButtons icon={<Minus color='gray' size={18} />} text="Linha" onClick={() => handleAddElement('hr')} />
                     <ElementButtons icon={<Link2 color='gray' size={18} />} text="Link" onClick={() => handleAddElement('link')} />
                     <ElementButtons icon={<Image color='gray' size={18} />} text="Imagem" onClick={() => handleAddElement('image')} />
+                    <div className='h-6 w-px bg-gray-300 mx-2' />
+                    <ElementButtons 
+                        icon={<Trash2 color='#ef4444' size={18} />} 
+                        text="Limpar Tudo" 
+                        onClick={handleClearAll}
+                        className="text-red-500 hover:bg-red-50"
+                    />
                 </div>
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-center gap-2'>
                     {user?.onboarding.mail && (
                         <Button
                             value="Preview"
                             onClick={handleOpenPreview}
                             textColor='#FFFFFF'
                             hoverBgColor='#1E40AF'
-                            className="px-6 bg-blue-600 hover:bg-blue-700 rounded-md "
+                            className="px-4 bg-blue-600 hover:bg-blue-700 rounded-md text-sm h-9"
                         />
                     )}
                 </div>
@@ -87,6 +106,7 @@ const HomePage = () => {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 htmlContent={htmlContent}
+                onSendSuccess={handleSendSuccess}
             />
         </div>
     );

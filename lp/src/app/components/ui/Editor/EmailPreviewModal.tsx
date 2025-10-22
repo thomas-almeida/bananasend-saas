@@ -9,9 +9,10 @@ interface EmailPreviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   htmlContent: string;
+  onSendSuccess?: () => void;
 }
 
-const EmailPreviewModal = ({ isOpen, onClose, htmlContent }: EmailPreviewModalProps) => {
+const EmailPreviewModal = ({ isOpen, onClose, htmlContent, onSendSuccess }: EmailPreviewModalProps) => {
   const [subject, setSubject] = useState('');
   const [isSending, setIsSending] = useState(false);
 
@@ -25,12 +26,23 @@ const EmailPreviewModal = ({ isOpen, onClose, htmlContent }: EmailPreviewModalPr
       return;
     }
 
-    setIsSending(true);
-    await sendMail(subject, htmlContent, userStore.user?.id!);
-    setIsSending(false);
-
-    alert('E-mail enviado com sucesso!');
-    onClose();
+    try {
+      setIsSending(true);
+      await sendMail(subject, htmlContent, userStore.user?.id!);
+      
+      alert('E-mail enviado com sucesso!');
+      onClose();
+      
+      // Call the success callback if provided
+      if (onSendSuccess) {
+        onSendSuccess();
+      }
+    } catch (error) {
+      console.error('Erro ao enviar e-mail:', error);
+      alert('Ocorreu um erro ao enviar o e-mail. Por favor, tente novamente.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (

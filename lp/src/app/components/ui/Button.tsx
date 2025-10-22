@@ -24,7 +24,7 @@ export default function Button({ value, bgColor, textColor, hoverBgColor, classN
         className={`p-1.5 rounded transition-colors cursor-pointer ${className} ${icon ? "flex items-center justify-center" : ""}`}
         {...props}
       >
-        {props.disabled ? "Produto Vendido" : value}
+        {props.disabled ? "Aguarde..." : value}
         {
           icon && (
             <span className="ml-2">

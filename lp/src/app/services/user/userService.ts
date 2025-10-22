@@ -30,7 +30,8 @@ export async function updateOnboarding(
     mails: response.data.user.mails,
     recipients: response.data.user.recipients,
     onboarding: response.data.user.onboarding,
-    progress: response.data.user.progress
+    progress: response.data.user.progress,
+    publicPage: response.data.user.publicPage
   });
   return response.data;
 }
@@ -95,5 +96,19 @@ export async function readNotifications(
     notificationId: string;
   }) {
   const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/read-notification`, payload);
+  return response.data;
+}
+
+export async function updatePublicPage(payload: {
+  userId: string;
+  title: string;
+  description: string;
+}) {
+  const response = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/public-page`, payload);
+  return response.data;
+}
+
+export async function getPublicPage(userId: string) {
+  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/public-page/${userId}`);
   return response.data;
 }

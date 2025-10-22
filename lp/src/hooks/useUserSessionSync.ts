@@ -23,7 +23,8 @@ export function useUserSessionSync() {
             mails: response.user.mails,
             recipients: response.user.recipients,
             onboarding: response.user.onboarding,
-            progress: response.user.progress
+            progress: response.user.progress,
+            publicPage: response.user.publicPage
           });
         } catch (e) {
           console.error('Failed to fetch user data', e);

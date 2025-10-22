@@ -6,12 +6,19 @@ import { useUserSessionSync } from "@/hooks/useUserSessionSync"
 import { useUserStore } from "@/store/userStore"
 import { useEffect, useState } from "react";
 import { addRecipient, removeRecipient } from "@/app/services/user/userService";
+import { updatePublicPage } from "@/app/services/user/userService";
+import Link from "next/link";
 
 export default function Settings() {
   useUserSessionSync();
   const userStore = useUserStore(state => state)
   const [emails, setEmails] = useState<string[]>([]);
   const [currentEmail, setCurrentEmail] = useState('');
+  const [publicPage, setPublicPage] = useState({
+    title: userStore.user?.publicPage?.title ?? '',
+    description: userStore.user?.publicPage?.description ?? ''
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (userStore.user?.recipients) {
@@ -43,6 +50,16 @@ export default function Settings() {
     if (e.key === 'Enter') {
       addEmail();
     }
+  }
+
+  async function updatePage() {
+    setIsLoading(true);
+    await updatePublicPage({
+      userId: userStore.user?.id ?? '',
+      title: publicPage.title,
+      description: publicPage.description
+    });
+    setIsLoading(false);
   }
 
   return (
@@ -119,6 +136,48 @@ export default function Settings() {
         )}
       </div>
 
+      <div className="my-2 border border-slate-200 p-2 rounded">
+        <h2 className="text-lg font-bold mb-2">Página Pública</h2>
+        <p className="p-1 py-2 border-slate-200 rounded-sm">Configure um título e uma descrição personalizada para atrair mais leitores para sua newsletter atráves do seu link de compartilhamento</p>
+
+        <div className="flex flex-col gap-2 mt-2 border border-slate-200 p-2 rounded">
+          <p className="text-sm font-semibold mx-2">Título da página</p>
+          <Input
+            placeholder="Título"
+            type="text"
+            value={publicPage.title}
+            onChange={(e) => setPublicPage({ title: e.target.value, description: publicPage.description })}
+            className="border border-slate-200 p-2 rounded outline-none flex-1 font-semibold text-slate-700"
+          />
+          <p className="text-sm font-semibold mx-2">Descrição da página</p>
+          <Input
+            placeholder="Descrição"
+            type="text"
+            value={publicPage.description}
+            onChange={(e) => setPublicPage({ title: publicPage.title, description: e.target.value })}
+            className="border border-slate-200 p-2 rounded outline-none flex-1 font-semibold text-slate-500"
+          />
+          <div className="flex justify-between gap-2">
+            <Button
+              value={isLoading ? 'Salvando...' : 'Salvar'}
+              className="mt-2 w-full"
+              onClick={() => updatePage()}
+              type="button"
+            />
+            <Link
+              href={`/subscribe/${userStore.user?.id}`}
+              className="w-full"
+            >
+              <Button
+                value="Ver página"
+                className="mt-2 w-full"
+                bgColor="#1e90ff"
+                type="button"
+              />
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

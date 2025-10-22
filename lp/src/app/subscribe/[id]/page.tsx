@@ -5,8 +5,7 @@ import { useParams } from 'next/navigation';
 import Button from '@/app/components/ui/Button';
 import { UserData } from '@/app/types/userData';
 import { redirect } from 'next/navigation';
-
-import { getUserById, addRecipient, addNotification } from '@/app/services/user/userService';
+import { getUserById, addRecipient, addNotification, getPublicPage } from '@/app/services/user/userService';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -15,6 +14,16 @@ export default function SubscribePage() {
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState<UserData | null>(null);
+
+    const [publicPage, setPublicPage] = useState({
+        title: '',
+        description: '',
+        audience: 0,
+    });
+    const [heading, setHeading] = useState({
+        title: publicPage.title || 'Inscreva-se na Minha Newsletter!',
+        description: publicPage.description || 'Receba atualizações sobre assuntos que você enquanto compartilho minha jornada por aqui!',
+    });
     const [error, setError] = useState('');
     const { id } = useParams();
 
@@ -65,13 +74,30 @@ export default function SubscribePage() {
                 redirect('/');
             }
         };
+
+        const fetchPublicPage = async () => {
+            try {
+                const publicPage = await getPublicPage(id as string);
+                setPublicPage(publicPage?.userPublicPage);
+                console.log(publicPage?.userPublicPage)
+                setHeading({
+                    title: publicPage?.userPublicPage?.title,
+                    description: publicPage?.userPublicPage?.description,
+                });
+            } catch (error) {
+                console.error(error);
+                redirect('/');
+            }
+        };
+
         fetchUser();
+        fetchPublicPage();
     }, [id]);
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="flex justify-center">
+                <div className="flex flex-col justify-center items-center my-4">
                     <Link href="/">
                         <Image
                             src="/img/bananasend-logo.png"
@@ -80,13 +106,17 @@ export default function SubscribePage() {
                             height={100}
                         />
                     </Link>
+                    <div className="flex justify-center pt-2">
+                        <p className="text-center text-md md:text-sm px-4">{user?.username}</p>
+                    </div>
                 </div>
-                <h2 className="mt-6 text-center text-3xl px-4 md:px-0 md:text-3xl font-extrabold text-gray-900">
-                    {isSubscribed ? 'Inscrição confirmada!' : `Inscreva-se na Newsletter de ${user?.username}`}
-                </h2>
+
+                <h1 className="mt-2 text-center text-3xl px-4 md:px-0 md:text-3xl font-extrabold text-gray-900">
+                    {isSubscribed ? 'Inscrição confirmada!' : `${heading.title}`}
+                </h1>
                 {!isSubscribed && (
                     <p className="mt-2 text-center text-md md:text-sm text-gray-600 px-4">
-                        Junte-se aos outros leitores ativos e receba atualizações sobre o mundo de {user?.onboarding.occupation}:
+                        {`${heading.description}`}
                     </p>
                 )}
             </div>

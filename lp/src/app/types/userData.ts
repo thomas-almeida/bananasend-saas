@@ -20,5 +20,9 @@ export type UserData = {
     level: number;
     currentPoints: number;
     actions: string[]
+  },
+  publicPage: {
+    title: string;
+    description: string;
   }
 };

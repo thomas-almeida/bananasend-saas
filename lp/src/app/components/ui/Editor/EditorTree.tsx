@@ -32,6 +32,7 @@ interface EditorTreeProps {
 interface EditorTreeRef {
   addElement: (type: ElementType) => void;
   generateHtml: () => string;
+  clearAll: () => void;
 }
 
 const EditorTree = forwardRef<EditorTreeRef, EditorTreeProps>(({ userName, userImage }, ref) => {
@@ -144,9 +145,25 @@ const EditorTree = forwardRef<EditorTreeRef, EditorTreeProps>(({ userName, userI
     return userHeader + emailContent + footer;
   };
 
+  const clearAll = () => {
+    setElements([
+      {
+        id: '1',
+        type: 'h1',
+        content: 'Novo Conteúdo!'
+      },
+      {
+        id: '2',
+        type: 'p',
+        content: 'Comece aqui!'
+      }
+    ]);
+  };
+
   useImperativeHandle(ref, () => ({
     addElement,
-    generateHtml
+    generateHtml,
+    clearAll
   }));
 
   const deleteElement = (id: string, focusPrevious: boolean = true) => {
