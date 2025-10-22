@@ -37,6 +37,10 @@ const UserSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
+  publicPage: {
+    title: { type: String, default: null },
+    description: { type: String, default: null },
+  }
 });
 
 const User = mongoose.model("User", UserSchema);

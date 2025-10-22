@@ -203,9 +203,9 @@ export async function readNotification(req, res) {
     // 1. Verifica se o usuário existe
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: "Usuário não encontrado" 
+        message: "Usuário não encontrado"
       });
     }
 
@@ -213,7 +213,7 @@ export async function readNotification(req, res) {
     const notificationExists = user.notifications.some(
       id => id.toString() === notificationId
     );
-    
+
     if (!notificationExists) {
       return res.status(404).json({
         success: false,
@@ -224,11 +224,11 @@ export async function readNotification(req, res) {
     // 3. Atualiza a notificação como lida
     const updatedNotification = await Notifications.findByIdAndUpdate(
       notificationId,
-      { 
-        $set: { 
+      {
+        $set: {
           read: true,
           updatedAt: new Date()
-        } 
+        }
       },
       { new: true } // Retorna o documento atualizado
     );
@@ -256,3 +256,39 @@ export async function readNotification(req, res) {
   }
 }
 
+export async function updatePublicPage(req, res) {
+  try {
+
+    const { userId, title, description } = req.body
+
+    const user = await User.findById(userId)
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Usuário não encontrado"
+      });
+    }
+
+    user.publicPage = {
+      title,
+      description
+    }
+
+    await user.save()
+
+    return res.status(200).json({
+      success: true,
+      message: "Página pública atualizada com sucesso",
+      user
+    })
+
+  } catch (error) {
+    console.error('Erro ao atualizar página pública:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Erro ao atualizar a página pública',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+}
