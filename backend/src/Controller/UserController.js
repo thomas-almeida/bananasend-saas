@@ -292,3 +292,20 @@ export async function updatePublicPage(req, res) {
     });
   }
 }
+
+export async function getPublicPage(req, res) {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    const userPublicPage = {
+      title: user.publicPage.title,
+      description: user.publicPage.description,
+      audience: user.recipients.length
+    }
+
+    res.status(200).json({ userPublicPage })
+
+  } catch (error) {
+    console.error('Erro ao buscar página pública:', error);
+  }
+}

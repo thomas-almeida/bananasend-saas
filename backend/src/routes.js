@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, getUserById, getTotalUsers, updateOnboarding, addDailyAction, addRecipient, removeRecipient, addNotification, getNotifications, readNotification, updatePublicPage } from "./Controller/UserController.js";
+import { createUser, getUserById, getTotalUsers, updateOnboarding, addDailyAction, addRecipient, removeRecipient, addNotification, getNotifications, readNotification, updatePublicPage, getPublicPage } from "./Controller/UserController.js";
 import { createSubscription, listSubscriptions, getSubscriptionById } from "./Controller/SubscriptionsController.js";
 import { createZohoUser, enableProtocols, getUserUsage, testZohoConnection, listUsers, getAccountDetails, resetPassword, sendZohoMail, addEmailToUser } from "./Controller/zohoController.js";
 import { createProduct, getProductsById } from "./Controller/ShopController.js"
@@ -23,7 +23,8 @@ api.post("/users/add-notification", addNotification);
 api.get("/users/notifications/:userId", getNotifications);
 api.put("/users/read-notification", readNotification);
 api.put("/users/public-page", updatePublicPage);
-//
+api.get("/users/public-page/:userId", getPublicPage);
+
 // Subscriptions
 api.post("/subscriptions", createSubscription);
 api.get("/subscriptions", listSubscriptions);
