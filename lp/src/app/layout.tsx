@@ -11,9 +11,33 @@ const inter = Inter({
 
 
 export const metadata: Metadata = {
-  title: "BananaSend - Amarureça a comunicação da sua operação!",
+  title: "BananaSend - Amadureça a comunicação da sua operação!",
   description:
-    "Se sua operação tem gargalos de performance, custos elevados, suporte ruim e retorno de investimento baixo, o Bananasend é perfeito você.",
+    "Solução completa para automação de marketing e gestão. Reduza custos e melhore o ROI com nossa plataforma integrada de disparos e gestão de leads.",
+  keywords: ["automação de marketing", "disparo de WhatsApp", "gestão de leads", "e-mail marketing", "gerador de leads", "bananasend", "marketing digital"],
+  authors: [{ name: 'BananaSend' }],
+  openGraph: {
+    title: 'BananaSend - Amadureça a comunicação da sua operação!',
+    description: 'Solução completa para automação de marketing e gestão. Reduza custos e melhore o ROI com nossa plataforma integrada de disparos e gestão de leads.',
+    url: 'https://bananasend.top',
+    siteName: 'BananaSend',
+    locale: 'pt_BR',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'tUqgGgQ_eGW5Yacwnj4y9qEobfzSYHaIt501dKtO0qo',
+  },
 };
 
 export default function RootLayout({
