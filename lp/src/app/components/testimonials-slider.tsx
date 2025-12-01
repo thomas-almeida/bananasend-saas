@@ -1,5 +1,4 @@
 import { InfiniteSlider } from "@/components/ui/infinite-slider";
-import Image from "next/image";
 
 export default function TestimonialsSlider() {
     return (
@@ -12,14 +11,6 @@ export default function TestimonialsSlider() {
 
             <div className="border border-slate-200 shadow p-6 rounded-lg max-w-[300px] h-[180px] ">
                 <div className="flex justify-start items-center gap-2">
-                    <Image
-                        src="/author-1.jpg"
-                        alt="send"
-                        width={30}
-                        height={30}
-                        className="w-[30px] h-[30px] rounded-full"
-                        priority
-                    />
                     <div className="flex flex-col text-left">
                         <p className="font-semibold">David Bronchini</p>
                         <p className="text-sm text-neutral-500">Diretor na Innovation Brindes</p>
@@ -31,14 +22,6 @@ export default function TestimonialsSlider() {
             </div>
             <div className="border border-slate-200 shadow p-6 rounded-lg max-w-[300px] h-[180px] ">
                 <div className="flex justify-start items-center gap-2">
-                    <Image
-                        src="/author-1.jpg"
-                        alt="send"
-                        width={30}
-                        height={30}
-                        className="w-[30px] h-[30px] rounded-full"
-                        priority
-                    />
                     <div className="flex flex-col text-left">
                         <p className="font-semibold">Daiane Borges</p>
                         <p className="text-sm text-neutral-500">Gerente na StartPro</p>
@@ -48,16 +31,8 @@ export default function TestimonialsSlider() {
                     <p className="italic text-neutral-500 text-sm text-left">"Um produto feito por quem estava lá desde o começo eles tem talento e paixão"</p>
                 </div>
             </div>
-                        <div className="border border-slate-200 shadow p-6 rounded-lg max-w-[300px] h-[180px] ">
+            <div className="border border-slate-200 shadow p-6 rounded-lg max-w-[300px] h-[180px] ">
                 <div className="flex justify-start items-center gap-2">
-                    <Image
-                        src="/author-1.jpg"
-                        alt="send"
-                        width={30}
-                        height={30}
-                        className="w-[30px] h-[30px] rounded-full"
-                        priority
-                    />
                     <div className="flex flex-col text-left">
                         <p className="font-semibold">Maira Magnani</p>
                         <p className="text-sm text-neutral-500">Coord. na UFF</p>

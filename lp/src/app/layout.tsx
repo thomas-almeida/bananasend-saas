@@ -11,9 +11,9 @@ const inter = Inter({
 
 
 export const metadata: Metadata = {
-  title: "BananaSend - Quem não é visto, não é lembrado!",
+  title: "BananaSend - Amarureça a comunicação da sua operação!",
   description:
-    "Amadureça seu trampo aprendendo a valorizar suas entregas, seja notado por quem realmente pode te promover, envie newsletters sobre progressos e reports gerando ainda mais valor da sua pessoa no seu time",
+    "Se sua operação tem gargalos de performance, custos elevados, suporte ruim e retorno de investimento baixo, o Bananasend é perfeito você.",
 };
 
 export default function RootLayout({

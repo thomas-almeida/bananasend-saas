@@ -1,7 +1,6 @@
 "use client"
 
 import Image from "next/image";
-import { GoogleButton } from "./components/GoogleButton";
 import Link from "next/link";
 import { useState } from "react";
 import ShimmerText from "@/components/kokonutui/shimmer-text";
@@ -17,6 +16,8 @@ export default function HomeClient() {
   const [mail, setMail] = useState("")
   const [alreadySubscribed, setAlreadySubscribed] = useState(false)
   const [isSending, setSending] = useState(false)
+
+  const whatsappLink = "https://wa.me/5511949098312?text=Ol%C3%A1%2C%20quero%20saber%20como%20integrar%20com%20o%20BananaSend!"
 
   const handleSubmit = async (e: React.FormEvent) => {
 
@@ -85,7 +86,13 @@ export default function HomeClient() {
             </div>
 
             <span className="hidden w-1/2 md:flex items-center justify-end">
-              <GoogleButton text="Agende uma reunião" />
+              <Link href={whatsappLink} className="">
+                <Button
+                  value="Agende uma reunião"
+                  icon={<Image src="/icons/mail.png" alt="send" width={20} height={20} />}
+                  className="px-4"
+                />
+              </Link>
             </span>
           </div>
         </header>
@@ -144,7 +151,13 @@ export default function HomeClient() {
           </div>
 
           <div className="mt-6 w-full flex items-center justify-center" id="cta">
-            <GoogleButton text="Agendar uma reunião" />
+            <Link href={whatsappLink} className="">
+              <Button
+                value="Agende uma reunião"
+                icon={<Image src="/icons/mail.png" alt="send" width={20} height={20} />}
+                className="p-2 px-4"
+              />
+            </Link>
           </div>
         </main>
 
@@ -405,18 +418,21 @@ export default function HomeClient() {
         </footer>
 
         {/* Floating WhatsApp Button (no link) */}
-        <button
-          type="button"
-          aria-label="Abrir WhatsApp"
-          className="cursor-pointer fixed bottom-4 right-4 z-50 inline-flex items-center justify-center h-14 w-14 rounded-full transition-transform hover:scale-105"
-        >
-          <Image
-            src="/icons/whatsapp.png"
-            alt="WhatsApp"
-            width={60}
-            height={60}
-          />
-        </button>
+        <Link href={whatsappLink}>
+          <button
+            type="button"
+            aria-label="Abrir WhatsApp"
+            className="cursor-pointer fixed bottom-4 right-4 z-50 inline-flex items-center justify-center h-14 w-14 rounded-full transition-transform hover:scale-105"
+          >
+            <Image
+              src="/icons/whatsapp.png"
+              alt="WhatsApp"
+              width={60}
+              height={60}
+            />
+          </button>
+        </Link>
+
 
       </div>
     </>
