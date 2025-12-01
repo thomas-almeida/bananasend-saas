@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 interface GoogleButtonProps {
   text: string
@@ -53,11 +54,16 @@ export function GoogleButton({ text }: GoogleButtonProps) {
   return (
     <button
       onClick={() => { signIn("google", { callbackUrl: "/dashboard" }) }}
-      className={`w-full md:w-[40%] cursor-pointer flex justify-center items-center gap-2 rounded-full bg-white border border-black/10 px-2 py-4 text-lg md:px-4 md:py-2 md:text-sm font-medium shadow-[0_1px_0_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow card-shadow`}
+      className={`w-full md:w-[40%] cursor-pointer flex justify-center items-center gap-2 rounded-lg bg-[#2bb24a] text-white border px-2 py-4 text-lg md:px-4 md:py-2 md:text-sm font-medium shadow-[0_1px_0_rgba(0,0,0,0.04)] hover:shadow-md transition-shadow card-shadow`}
     >
       <>
         {text}
-        <GoogleIcon className="size-4" />
+        <Image
+          src="/icons/mail.png"
+          alt="google"
+          width={20}
+          height={20}
+        />
       </>
     </button>
   )

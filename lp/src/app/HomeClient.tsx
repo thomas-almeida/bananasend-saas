@@ -2,40 +2,44 @@
 
 import Image from "next/image";
 import { GoogleButton } from "./components/GoogleButton";
-import Pricing from "./components/Pricing";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import type { SubscriptionPlan } from "./types/subscriptions";
+import { useState } from "react";
+import ShimmerText from "@/components/kokonutui/shimmer-text";
+import TypewriterTitle from "@/components/kokonutui/type-writer";
+import EnterpriseSlider from "./components/enterprise-slider";
+import Services from "./components/services";
+import TestimonialsSlider from "./components/testimonials-slider";
+import Input from "./components/ui/Form/Input";
+import Button from "./components/ui/Button";
+import { addRecipient } from "./services";
 
-interface HomeClientProps {
-  initialPrices: SubscriptionPlan[]
-}
+export default function HomeClient() {
+  const [mail, setMail] = useState("")
+  const [alreadySubscribed, setAlreadySubscribed] = useState(false)
+  const [isSending, setSending] = useState(false)
 
-export default function HomeClient({ initialPrices }: HomeClientProps) {
-  const [prices] = useState<SubscriptionPlan[]>(initialPrices)
+  const handleSubmit = async (e: React.FormEvent) => {
 
-  // Allow only one FAQ <details> open at a time
-  useEffect(() => {
-    const faq = document.getElementById('faq')
-    if (!faq) return
-
-    const getDetails = () => Array.from(faq.querySelectorAll('details')) as HTMLDetailsElement[]
-
-    const onToggle = (e: Event) => {
-      const target = e.target as HTMLElement
-      if (!target || target.tagName.toLowerCase() !== 'details') return
-      const detailsEls = getDetails()
-      const opened = target as HTMLDetailsElement
-      if (opened.open) {
-        detailsEls.forEach(d => {
-          if (d !== opened) d.removeAttribute('open')
-        })
-      }
+    if (!mail.includes("@")) {
+      alert("insira um email válido")
+      return
     }
 
-    faq.addEventListener('toggle', onToggle, true)
-    return () => faq.removeEventListener('toggle', onToggle, true)
-  }, [])
+    e.preventDefault()
+    setSending(true)
+    try {
+      await addRecipient({
+        userId: process.env.NEXT_PUBLIC_MAINID!,
+        recipient: mail
+      })
+      setMail("")
+      setAlreadySubscribed(true)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setSending(false)
+    }
+  }
 
   return (
     <>
@@ -55,18 +59,18 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
               <ul className="flex items-center gap-4 text-sm">
                 <li>
                   <Link
-                    href="#faq"
+                    href="#servicos"
                     className="hover:underline"
                   >
-                    O que é?
+                    Serviços
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="#precos"
+                    href="#sobre"
                     className="hover:underline"
                   >
-                    Preços
+                    Sobre
                   </Link>
                 </li>
                 <li>
@@ -74,43 +78,35 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
                     href="#faq"
                     className="hover:underline"
                   >
-                    FAQ
+                    Dúvidas
                   </Link>
                 </li>
               </ul>
             </div>
 
             <span className="hidden w-1/2 md:flex items-center justify-end">
-              <GoogleButton text="Fazer Login" />
+              <GoogleButton text="Agende uma reunião" />
             </span>
           </div>
         </header>
 
         {/* Hero */}
         <main className="mx-auto max-w-3xl px-4 sm:px-6 pt-10 sm:pt-12 text-center relative z-10 ">
-          <span className="flex items-center justify-center">
-            <p className="text-sm font-medium text-[#2bb24a] border border-slate-200 px-4 py-1 rounded-full shadow-lg shadow-slate-100">“Quem não é visto, não é Lembrado!” 👀</p>
-          </span>
 
-          <h1 className="mt-6 text-3xl sm:text-4xl md:text-[46px] leading-10 tracking-tighter text-neutral-900 italic font-mono [text-wrap:balance]">
-            Faça até seu <span className="text-[#2bb24a] italic font-serif text-5xl">Chefe</span> virar sua Audiência no&nbsp;Trampo
-          </h1>
+          <TypewriterTitle />
+
+          <ShimmerText
+            text="Amadureça seus canais de comunicação à preço de banana"
+            className="text-3xl sm:text-4xl md:text-[46px] leading-10 tracking-tighter italic [text-wrap:balance]"
+          />
 
           <div className=" px-2 md:px-0">
-            <p className="mt-5 text-lg sm:text-md text-neutral-800 max-w-2xl mx-auto leading-6">
-              Melhore sua presença no <i>LinkedIn</i>, monitore oportunidades no <i>Whatsapp</i> e amadureça suas entregas enviando <i>Newsletters</i> modernas e diretas por <i>Email</i> mostrando que você é essencial para gestores e&nbsp;RHs.
+            <p className="text-md sm:text-md text-neutral-800 max-w-2xl mx-auto leading-6">
+              Dispare para Whatsapp e Email, faça gestão de TI e RH do seu negócio, crie estratégias de promoção para seu ecommerce, gere listas quentes de prospecção para sua operação, você escolhe!
             </p>
           </div>
 
           <div className="flex items-center justify-center mt-4">
-            <Image
-              src="/icons/linkedin.png"
-              alt="send"
-              className="rotate-[-12deg]"
-              width={60}
-              height={60}
-              priority
-            />
             <Image
               src="/icons/whatsapp.png"
               alt="send"
@@ -127,113 +123,139 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
               height={40}
               priority
             />
+
+            <Image
+              src="/icons/person.png"
+              alt="send"
+              className=""
+              width={70}
+              height={40}
+              priority
+            />
+
+            <Image
+              src="/icons/cart.png"
+              alt="send"
+              className="mx-2"
+              width={60}
+              height={40}
+              priority
+            />
           </div>
 
           <div className="mt-6 w-full flex items-center justify-center" id="cta">
-            <GoogleButton text="Começar Grátis Sem Cartão" />
+            <GoogleButton text="Agendar uma reunião" />
           </div>
         </main>
 
-        <section className="mx-auto my-12 max-w-3xl px-4 sm:px-6 pt-10 sm:pt-12 text-center relative z-10">
-          <h2 className="text-2xl md:text-3xl md:leading-8 tracking-tighter text-neutral-900 font-mono [text-wrap:balance]">Aumente sua visibilidade em apenas <span className="text-[#2bb24a] italic font-serif text-4xl">3</span> cliques!</h2>
-          <p className="py-2 text-neutral-600">Faça seus relatórios serem o assunto da semana na reunião da sua gestão</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 items-start gap-4">
-            <div className="grid grid-cols-1 gap-4 py-5">
-              <div className="text-left border border-slate-200 p-6 py-8 rounded-2xl shadow-lg shadow-slate-100">
-                <b className="text-2xl">✉️</b>
-                <h3 className="text-xl text-[#2bb24a] font-mono tracking-tighter pb-2">Faça seu Login</h3>
-                <p className="leading-5">Entre com sua conta Google, e complete seu cadastro e inclua os destinatários desejados</p>
-              </div>
-              <div className="text-left border border-slate-200 p-6 py-8 rounded-2xl shadow-lg shadow-slate-100">
-                <b className="text-2xl">✨</b>
-                <h3 className="text-xl text-[#2bb24a] font-mono tracking-tighter pb-2">Crie e Construa</h3>
-                <p className="leading-5">Automatize seu primeiro post no LinkedIn, Crie sua primeira newsletter, Conecte seu Whatsapp e comece a ter insights para se destacar</p>
-              </div>
-              <div className="text-left border border-slate-200 p-6 py-8 rounded-2xl shadow-lg shadow-slate-100">
-                <b className="text-2xl">✅</b>
-                <h3 className="text-xl text-[#2bb24a] font-mono tracking-tighter pb-2">Seja notado!</h3>
-                <p className="leading-5">Veja seu progresso e veja como sua presença no LinkedIn, feedbacks da Newsletter e as novas métricas do seu Whatsapp estão evoluindo</p>
-              </div>
-            </div>
+        <span id="servicos"></span>
 
-            <div className="flex items-center justify-center my-5 relative ">
-              <Image
-                src="/nww.png"
-                alt="send"
-                width={400}
-                height={400}
-                className="shadow-lg shadow-slate-100 border border-slate-200 p-2 rounded-2xl"
-                priority
-              />
-              <p className="absolute top-[-2%] left-[15%] p-1 rounded-full px-4 bg-white border border-slate-200 shadow-lg shadow-slate-100s font-mono z-10 ">Templates que Convertem</p>
-              <p className="absolute left-[0%] rotate-[-12deg] p-1 rounded-full px-4 bg-white border border-slate-200 shadow-lg shadow-slate-100s font-mono z-10 ">Gere +Valor ✅</p>
-              <p className="absolute top-[70%] left-[0%] rotate-[-12deg] p-1 rounded-full px-4 bg-white border border-slate-200 shadow-lg shadow-slate-100s font-mono z-10 ">Anexe Imagens 📸</p>
-              <p className="absolute top-[64%] left-[0%] rotate-[-12deg] p-1 rounded-full px-4 bg-white border border-slate-200 shadow-lg shadow-slate-100s font-mono z-10 ">Crie Gráficos 📊</p>
-              <p className="absolute top-[25%] left-[0%] rotate-[-12deg] p-1 rounded-full px-4 bg-white border border-slate-200 shadow-lg shadow-slate-100s font-mono z-10 ">Títulos Chamativos 🔥</p>
-            </div>
+        <section className="mx-auto my-24 max-w-3xl px-4 sm:px-6 pt-10 sm:pt-12 text-center relative z-10">
+          <h2 className="text-2xl md:text-3xl md:leading-8 tracking-tighter text-neutral-900 font-mono [text-wrap:balance]">Comece a integrar essa semana!</h2>
+          <p className="py-2 text-neutral-600">Troque plataformas caras por serviços e infra de primeira, a preço de banana</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-6">
+            <Services title="Disparo de E-mail e Whatsapp" description="Envie E-mails e mensagens de Whatsapp para sua base em tempo recorde. integre com nossa API ou direto do nosso Dashboard." icons={["/icons/whatsapp.png", "/icons/mail.png"]} />
+            <Services title="Gestão de TI & RH" description="Gerencie os emails coporativos do seu negócio, faça gestão de acessos, chamados, homologações e muito mais." icons={["/icons/person-1.png", "/icons/pc.png"]} />
+            <Services title="Gerador de Leads" description="Crie listas de contato com leads qualificados em momento de compra e filtrados exatamente pro seu nicho" icons={["/icons/lead.png", "/icons/list.png"]} />
+            <Services title="Ecommerce" description="Insira bots de promoções para seus clientes, melhore seu SEO no site e marketplaces, crie estratégias de conteúdo e muito mais." icons={["/icons/cart.png", "/icons/box.png"]} />
           </div>
+
         </section>
+
+
+        <section className="mx-auto my-12 max-w-3xl px-4 sm:px-6 pt-10 sm:pt-12 text-center relative z-10">
+          <h2 className="text-2xl md:text-3xl md:leading-8 tracking-tighter text-neutral-900 font-mono [text-wrap:balance]">Testado e validado por empresas reais do mercado</h2>
+          <p className="py-2 text-neutral-600">Negócios que já economizam tempo e dinheiro com o uso do Bananasend</p>
+          <EnterpriseSlider />
+        </section>
+
+
+        <span id="sobre"></span>
 
         <section className="mx-auto my-24 py-24 max-w-3xl px-4 sm:px-6 md:border border-slate-200 md:rounded-2xl md:shadow-lg md:shadow-slate-100 text-center relative z-10">
 
-          <span className="flex items-center justify-center py-4 mb-2">
-            <Image
-              src="/author.jpg"
-              alt="send"
-              width={40}
-              height={40}
-              className="mix-blend-multiply rounded-full "
-              priority
-            />
-            <p className="ml-2"><b>Thomas Almeida</b></p>
+          <p className="ml-2">Fundadores</p>
+          <span className="flex flex-col md:flex-row items-center justify-center py-4 mb-2">
+            <div className="flex ml-6 mb-2 md:mb-0 md:ml-0 items-center justify-center relative">
+              <Image
+                src="/author-2.jpeg"
+                alt="send"
+                width={40}
+                height={40}
+                className="rounded-full object-cover w-12 h-12 ml-4 z-10"
+                priority
+              />
+              <Image
+                src="/author-1.jpg"
+                alt="send"
+                width={40}
+                height={40}
+                className="rounded-full object-cover w-12 h-12 absolute z-0 right-10"
+                priority
+              />
+            </div>
+            <p className="ml-2"><b>Thomas Almeida</b> & <b>Eduarda Prestes</b></p>
           </span>
-          <h2 className="text-2xl md:text-3xl md:leading-8 tracking-tighter text-neutral-900 font-mono [text-wrap:balance]">Como um Email e Bananas me fizeram almoçar com o CEO do<span className="text-[#f8b332] italic font-serif text-4xl ml-1"> Assaí Atacadista</span>?</h2>
-          <p className="py-4 text-neutral-600 italic">&quot;Eu tava doido pra encontrar alguém pra mostrar as automações dos chamados que iam desafogar a fila do TI aqui do Assaí, mas ninguém tava tendo tempo pra uma reunião agendada, então tive uma ideia...&quot;</p>
-          <Link
-            href="https://www.tabnews.com.br/thommdev/quem-nao-e-visto-nao-e-lembrado"
-            target="_blank"
-            className="border border-slate-200 px-4 p-1 rounded-full hover:underline">
-            Leia no Tabnews {"->"}
-          </Link>
-        </section>
+          <h2 className="text-2xl md:text-3xl md:leading-8 tracking-tighter text-neutral-900 font-mono [text-wrap:balance]">Como ex-funcionários de uma multinacional vão fazer você se apaixonar pelo o que estamos construindo com tecnologia?</h2>
+          <p className="py-4 text-neutral-600 italic text-sm">&quot;Te convidamos a acompanhar a jornada de profissionais que cansaram de um ambiente quadrado que não se atualizava perante o mercado, veja como construímos soluções com tecnologias e metodologias do futuro, entregando com excelência&quot;</p>
 
-        {/* Pricing Section */}
-        <section id="precos" aria-label="Planos e Preços" className="mx-auto my-32 max-w-6xl px-4 sm:px-6 pt-10 sm:pt-12 text-center relative z-10">
-          <h2 className="text-2xl md:text-3xl md:leading-8 tracking-tighter text-neutral-900 font-mono [text-wrap:balance]">
-            Planos e Preços
-          </h2>
-          <p className="py-2 text-neutral-600">Investimento melhor que esse, só tigrinho</p>
-          <div className="mt-6 flex items-center justify-center">
-            <Pricing prices={prices} />
+          <div className="flex flex-col gap-3 items-center justify-center max-w-lg mx-auto">
+            {
+              alreadySubscribed ? (
+                <p className="text-green-500 text-lg">Obrigado por se inscrever!</p>
+              ) : (
+                <>
+                  <Input
+                    type="email"
+                    placeholder="Seu melhor email"
+                    value={mail}
+                    onChange={(e) => setMail(e.target.value)}
+                  />
+                  <Button
+                    disabled={isSending}
+                    onClick={handleSubmit}
+                    value="Inscreva-se na Newsletter"
+                    className="w-full py-2"
+                  />
+                </>
+              )
+            }
           </div>
         </section>
 
-        {/*FAQ*/}
+        <section aria-label="Perguntas frequentes" className="mx-auto my-24 max-w-3xl px-4 sm:px-6 pt-10 sm:pt-12 text-center relative z-10">
+          <h2 className="text-2xl md:text-3xl md:leading-8 tracking-tighter text-neutral-900 font-mono [text-wrap:balance]">Fazemos mais que o combinado</h2>
+          <p className="py-2 text-neutral-600">O Bananasend foi feito para criar cases de sucesso, entregas com excelência, satisfação e resultados reais dos clientes</p>
+          <TestimonialsSlider />
+        </section>
 
-        <section id="faq" aria-label="Perguntas frequentes" className="mx-auto my-12 max-w-3xl px-4 sm:px-6 pt-10 sm:pt-12 relative z-10">
+        <span id="faq"></span>
+
+        <section aria-label="Perguntas frequentes" className="mx-auto my-24 max-w-3xl px-4 sm:px-6 pt-10 sm:pt-12 relative z-10">
           <h2 className="text-2xl md:text-3xl md:leading-8 tracking-tighter text-neutral-900 font-mono [text-wrap:balance] text-center">
             Perguntas Frequentes
           </h2>
-          <p className="py-2 text-neutral-600 text-center">Tire suas dúvidas sobre o Bananasend</p>
+          <p className="py-2 text-neutral-600 text-center">Ainda sem saber se o BananaSend é pra você, separamos as principais dúvidas dos nossos clientes tiveram antes de amadurecerem suas operações.</p>
 
           <div className="mt-6 space-y-3">
             <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
               <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
-                O que é o Bananasend?
+                O que é o Bananasend? é para a minha operação?
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
-                O Bananasend ajuda profissionais a criarem uma presença mais ativa nas mídias de trabalho como LinkedIn, criação de Newsletters semanais por e-mail e métricas sobre Whatsapp de trabalho para aumentar sua visibilidade com gestores, audiência e lideranças.
+                O Bananasend ajuda empresas e profissionais a automatizar envios de marketing e gestão com inteligência de dados com as tecnlogias mais atuais do mercado, a um preço menor do que concorrentes datados e com preços arcaicos. Se sua operação tem gargalos de performance, custos elevados, suporte ruim e retorno de investimento baixo, o Bananasend é <b>perfeito</b> você.
               </div>
             </details>
 
             <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
               <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
-                Preciso de conhecimento técnico pra começar?
+                Quanto tempo para integrar com vocês?
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
-                Não. Você começa com <b className="text-[#2bb24a]">templates prontos</b> que convertem. Basta preencher com suas entregas, conectar seu número, anexar imagens e personalizar títulos chamativos.
+                Temos um tempo de integração, treinamento e lançamento recorde de 2 dias a uma semana, plug and play com o seu negócio, trocamos o pneu do seu carro com o carro andando.
               </div>
             </details>
 
@@ -243,57 +265,48 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
-                Há planos mensais. Clique em <a href="#precos" className="underline text-[#2bb24a]">Preços</a> para ver os valores e benefícios de cada plano.
+                Nossos preços são personalizados para a sua demanda, você pode saber mais agendando uma reunião conosco ou na aba de <a href="#pricing" className="underline">preços</a>
               </div>
             </details>
 
             <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
               <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
-                Consigo enviar para vários gestores ao mesmo tempo?
+                Os disparos de Whatsapp/Emails tem risco de queda ou spam?
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
-                Sim. Adicione múltiplos destinatários e mantenha todos atualizados sobre suas entregas com um único envio.
+                Diferente de outras plataformas, com o Bananasend você conta com um ambiente seguro e anti-spam de emails, com um algoritmo de cadência top de mercado para evitar quedas e banimentos no Whastapp para disparar sem medo e com as APIs da Meta.
+              </div>
+            </details>
+
+
+            <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
+              <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
+                Qual a qualidade dos leads do gerador? os contatos são verificados?
+                <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
+              </summary>
+              <div className="px-4 pb-4 text-neutral-700 leading-6">
+                Usamos um algoritmo de verificação de contatos para evitar spam e contatos inválidos nos leads que geramos, ao usar nosso gerador você tem uma lista de contatos atuais, com poder de compra do seu nicho e em um volume que você define.
               </div>
             </details>
 
             <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
               <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
-                Tem risco do meu Whatsapp ou LinkedIn serem banidos/caírem?
+                Consigo conectar meu email corporativo?
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
-                Não, o Bananasend utiliza um ambiente seguro e anti-spam para conectar, analisar e enviar seus conteúdos com as APIs oficiais do LinkedIn e Meta.
+                Sim, ao usar o banansend você gerencia seu domínio com um ambiente seguro e muito fácil de usar, Plug and Play.
               </div>
             </details>
 
             <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
               <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
-                Preciso conectar meu email corporativo?
+                Vocês tem suporte em quais canais?
                 <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
               </summary>
               <div className="px-4 pb-4 text-neutral-700 leading-6">
-                Não, ao usar o banansend você envia seus conteúdos fácilmente pelo nosso domínio de ambiente seguro e anti-spam, Plug and Play.
-              </div>
-            </details>
-
-            <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
-              <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
-                Vocês tem suporte em caso de dúvidas?
-                <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
-              </summary>
-              <div className="px-4 pb-4 text-neutral-700 leading-6">
-                Sim, oferecemos suporte em tempo real pelo nosso <b>Discord</b> ou via <b>WhatsApp</b> basta acionar a gente!
-              </div>
-            </details>
-
-            <details className="group border border-slate-200 rounded-2xl shadow-lg shadow-slate-100 overflow-hidden">
-              <summary className="flex w-full items-center justify-between cursor-pointer select-none px-4 py-3 font-medium text-neutral-900">
-                Consigo anexar imagens e gráficos nos emails e posts?
-                <span className="ml-4 text-neutral-500 group-open:rotate-45 transition-transform">+</span>
-              </summary>
-              <div className="px-4 pb-4 text-neutral-700 leading-6">
-                Sim, dentro do nosso editor e dos templates você consegue anexar imagens e gráficos do seu jeito.
+                Oferecemos suporte em tempo real pelo nosso <b>Discord</b> ou via <b>WhatsApp</b> e telefone basta acionar a gente 24/7!
               </div>
             </details>
           </div>
@@ -308,20 +321,18 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
                 mainEntity: [
                   {
                     '@type': 'Question',
-                    name: 'O que é o Bananasend?',
+                    name: 'O que é o Bananasend? é para a minha operação?',
                     acceptedAnswer: {
                       '@type': 'Answer',
-                      text:
-                        'O Bananasend ajuda profissionais a enviarem criarem uma presença mais ativa nas mídias de trabalho como LinkedIn, criaçaão de Newsletters semanais por e-mail e métricas sobre Whatsapp de trabalho para aumentar sua visibilidade com gestores, audiência e lideranças.'
+                      text: 'O Bananasend ajuda empresas e profissionais a automatizar envios de marketing e gestão com inteligência de dados com as tecnologias mais atuais do mercado, a um preço menor do que concorrentes datados e com preços arcaicos. Se sua operação tem gargalos de performance, custos elevados, suporte ruim e retorno de investimento baixo, o Bananasend é perfeito para você.'
                     }
                   },
                   {
                     '@type': 'Question',
-                    name: 'Preciso de conhecimento em design?',
+                    name: 'Quanto tempo para integrar com vocês?',
                     acceptedAnswer: {
                       '@type': 'Answer',
-                      text:
-                        'Não. Você começa com templates prontos que convertem. Basta preencher com suas entregas, anexar imagens e personalizar títulos chamativos.'
+                      text: 'Temos um tempo de integração, treinamento e lançamento recorde de 2 dias a uma semana, plug and play com o seu negócio, trocamos o pneu do seu carro com o carro andando.'
                     }
                   },
                   {
@@ -329,44 +340,39 @@ export default function HomeClient({ initialPrices }: HomeClientProps) {
                     name: 'Como funcionam os preços?',
                     acceptedAnswer: {
                       '@type': 'Answer',
-                      text:
-                        'Há planos mensais e anuais. Clique em Preços para ver os valores e benefícios de cada plano.'
+                      text: 'Nossos preços são personalizados para a sua demanda, você pode saber mais agendando uma reunião conosco ou na aba de preços.'
                     }
                   },
                   {
                     '@type': 'Question',
-                    name: 'Consigo enviar para vários gestores ao mesmo tempo?',
+                    name: 'Os disparos de Whatsapp/Emails tem risco de queda ou spam?',
                     acceptedAnswer: {
                       '@type': 'Answer',
-                      text:
-                        'Sim. Adicione múltiplos destinatários e mantenha todos atualizados sobre suas entregas com um único envio.'
+                      text: 'Diferente de outras plataformas, com o Bananasend você conta com um ambiente seguro e anti-spam de emails, com um algoritmo de cadência top de mercado para evitar quedas e banimentos no Whatsapp para disparar sem medo e com as APIs da Meta.'
                     }
                   },
                   {
                     '@type': 'Question',
-                    name: 'Preciso conectar meu email corporativo?',
+                    name: 'Qual a qualidade dos leads do gerador? Os contatos são verificados?',
                     acceptedAnswer: {
                       '@type': 'Answer',
-                      text:
-                        'Não, ao usar o Bananasend você envia seus conteúdos facilmente pelo nosso domínio de ambiente seguro e anti-spam, plug and play.'
+                      text: 'Usamos um algoritmo de verificação de contatos para evitar spam e contatos inválidos nos leads que geramos, ao usar nosso gerador você tem uma lista de contatos atuais, com poder de compra do seu nicho e em um volume que você define.'
                     }
                   },
                   {
                     '@type': 'Question',
-                    name: 'Vocês tem suporte em caso de dúvidas?',
+                    name: 'Consigo conectar meu email corporativo?',
                     acceptedAnswer: {
                       '@type': 'Answer',
-                      text:
-                        'Sim, oferecemos suporte em tempo real pelo nosso Discord ou via WhatsApp. Basta acionar a gente.'
+                      text: 'Sim, ao usar o Bananasend você gerencia seu domínio com um ambiente seguro e muito fácil de usar, Plug and Play.'
                     }
                   },
                   {
                     '@type': 'Question',
-                    name: 'Consigo anexar imagens e gráficos nos emails?',
+                    name: 'Vocês tem suporte em quais canais?',
                     acceptedAnswer: {
                       '@type': 'Answer',
-                      text:
-                        'Sim, dentro do nosso editor e dos templates você consegue anexar imagens e gráficos do seu jeito.'
+                      text: 'Oferecemos suporte em tempo real pelo nosso Discord ou via WhatsApp e telefone, basta acionar a gente 24/7!'
                     }
                   }
                 ]
