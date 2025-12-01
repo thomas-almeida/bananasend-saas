@@ -23,6 +23,14 @@ export const metadata: Metadata = {
     siteName: 'BananaSend',
     locale: 'pt_BR',
     type: 'website',
+    images: [
+      {
+        url: 'https://bananasend.top/img/bananasend-logo.png',
+        width: 800,
+        height: 600,
+        alt: 'BananaSend - Solução completa para automação de marketing',
+      },
+    ],
   },
   robots: {
     index: true,
